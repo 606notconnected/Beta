@@ -36,8 +36,8 @@ public class listViewForFriend extends BaseAdapter {
      */
     public final class Zujian{
         private ImageView examplePicture;
-//        private TextView exampletext;
-//        private Button love;
+        private TextView exampletext;
+        private Button love;
     }
     @Override
     public int getCount() {
@@ -66,18 +66,18 @@ public class listViewForFriend extends BaseAdapter {
             //获得组件，实例化组件
             convertView=layoutInflater.inflate(R.layout.list_friend, null);
             zujian.examplePicture=(ImageView)convertView.findViewById(R.id.examplePicture);
-//            zujian.exampletext=(TextView)convertView.findViewById(R.id.exampleText);
-//            zujian.love= (Button) convertView.findViewById(R.id.love);
+            zujian.exampletext=(TextView)convertView.findViewById(R.id.exampleText);
+            zujian.love= (Button) convertView.findViewById(R.id.love);
             convertView.setTag(zujian);
         }else{
             zujian=(Zujian)convertView.getTag();
         }
         //绑定数据
         zujian.examplePicture.setBackgroundResource((Integer)data.get(position).get("examplePicture"));
-//        zujian.exampletext.setText((String) data.get(position).get("exampletext"));
-//        zujian.love.setBackgroundResource((Integer) data.get(position).get("love"));
-//        zujian.love.setOnClickListener(mListener);
-//        zujian.love.setTag(position);
+        zujian.exampletext.setText((String) data.get(position).get("exampletext"));
+        zujian.love.setBackgroundResource((Integer) data.get(position).get("love"));
+        zujian.love.setOnClickListener(mListener);
+        zujian.love.setTag(position);
         return convertView;
     }
 

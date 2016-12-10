@@ -315,7 +315,7 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
             public void onClick(View v) {
                 startActivity(new Intent(mainView.this, watchFriend.class));
             }
-        });
+        });//点击进入关注好友界面
         looktrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

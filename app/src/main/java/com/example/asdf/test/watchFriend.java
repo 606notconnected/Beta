@@ -49,7 +49,6 @@ public class watchFriend extends Activity implements AdapterView.OnItemClickList
         watch_friend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(watchFriend.this,"oo"+position,Toast.LENGTH_LONG).show();
                 startActivity(new Intent(watchFriend.this, friend.class));
             }
         });
@@ -66,9 +65,7 @@ public class watchFriend extends Activity implements AdapterView.OnItemClickList
         List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
         for (int i = 0; i < friendsnumber; i++) {
             Map<String, Object> map=new HashMap<String, Object>();
-//            map.put("enter", R.drawable.enter);
             map.put("friendName", "oj木有小丁丁"+i);
-//            map.put("entertext", "进入主页");
             map.put("love", R.drawable.love);
             map.put("lovetext","取消关注");
             map.put("examplePicture", R.drawable.ddd);
@@ -81,8 +78,8 @@ public class watchFriend extends Activity implements AdapterView.OnItemClickList
     // 响应item点击事件
 //    @Override
     public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
-//        Toast.makeText(this, "listview的item被点击了！，点击的位置是-->" + position,
-//                Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "listview的item被点击了！，点击的位置是-->" + position,
+                Toast.LENGTH_SHORT).show();
 //        startActivity(new Intent(watchFriend.this, friend.class));
     }
 
@@ -93,7 +90,7 @@ public class watchFriend extends Activity implements AdapterView.OnItemClickList
         @Override
         public void listViewItemClick(int position, View v) {
 //            Toast.makeText(
-//                    friend.this,
+//                    watchFriend.this,
 //                    "listview的内部的按钮被点击了！，位置是-->" + position + ",内容是-->"
 //                            + list.get(position), Toast.LENGTH_SHORT)
 //                    .show();

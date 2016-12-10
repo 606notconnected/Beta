@@ -19,7 +19,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="查看照片"
+            android:text="好友名"
             android:textColor="#ffffff"
             android:clickable="true"
             android:id="@+id/Map"
@@ -29,7 +29,7 @@
     </LinearLayout>
    <ListView
        android:layout_marginTop="20dp"
-       android:layout_marginRight="20dp"
+       android:layout_gravity="center_horizontal"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:id="@+id/friendListview"></ListView>

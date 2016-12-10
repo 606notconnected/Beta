@@ -70,7 +70,6 @@ public class picture extends Activity {
     public static String intro;
     public static String na;
 //    private GridView gridView1;              //网格显示缩略图
-   // MyAdapter myAdapter;
     private ListView lv_main;
     httpClient tmp1 = new httpClient();
     private Handler handler;

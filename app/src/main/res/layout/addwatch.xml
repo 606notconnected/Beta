@@ -37,7 +37,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="40dp"
         android:textCursorDrawable="@null"
-        android:background="#ffffff"
+        android:background="@drawable/round_edittext"
         android:textSize="12dp"
         android:hint="请输入好友昵称或者手机号"/>
         <EditText

@@ -74,7 +74,7 @@ public class friend extends Activity implements AdapterView.OnItemClickListener{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(friend.this,"oo"+position,Toast.LENGTH_LONG).show();
-//                startActivity(new Intent(friend.this, tripLine.class));
+                startActivity(new Intent(friend.this, friendDetailed.class));
             }
         });
     }

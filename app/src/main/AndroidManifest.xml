@@ -58,6 +58,7 @@
         <activity android:name=".singleDetail"></activity>
         <activity android:name="listViewAdapter"></activity>
         <activity android:name=".watchFriend"></activity>
+        <activity android:name=".friendDetailed"></activity>
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"

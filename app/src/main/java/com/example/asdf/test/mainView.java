@@ -143,6 +143,7 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
         delete = (LinearLayout) findViewById(R.id.delete);
         care = (LinearLayout) findViewById(R.id.care);
         myhead = (ImageView) findViewById(R.id.head);
+        Map= (TextView) findViewById(R.id.Map);
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -206,15 +207,26 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
                             .setNegativeButton("取消", null)
                             .show();
                     num = 1;
-                   new Thread()
-                   {
-                       public void run()
-                       {
-                           httpImage tmpHttpImage = new httpImage();
-                           for(int j=0;j<login.latt.size();j++) {
-                               LatLng latLng1 = new LatLng(Double.valueOf(login.latt.get(j)), Double.valueOf(login.longg.get(j)));
-                               Bitmap tmpBitmap = null;
-                               tmpBitmap = tmpHttpImage.getBitmap("http://120.27.7.115:1010/api/image?name=" + login.picName.get(j), handler1);
+                } else if (num == 1) {
+                    tripName=null;
+                    tripId=null;
+                    start.setBackgroundResource(R.drawable.start);
+                    num = 0;
+                }
+            }
+        });
+        Map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread()
+                {
+                    public void run()
+                    {
+                        httpImage tmpHttpImage = new httpImage();
+                        for(int j=0;j<login.latt.size();j++) {
+                            LatLng latLng1 = new LatLng(Double.valueOf(login.latt.get(j)), Double.valueOf(login.longg.get(j)));
+                            Bitmap tmpBitmap = null;
+                            tmpBitmap = tmpHttpImage.getBitmap("http://120.27.7.115:1010/api/image?name=" + login.picName.get(j), handler1);
 //                               MarkerOptions otMarkerOptions = new MarkerOptions();
 //                               otMarkerOptions.icon(BitmapDescriptorFactory.fromBitmap(tmpBitmap));
 //                               otMarkerOptions.position(latLng1);
@@ -241,20 +253,11 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
                             Bitmap resizedBitmap = Bitmap.createBitmap(tmpBitmap, 0, 0, width,
                                     height, matrix, true);
                             aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f)//设置锚点
-                .position(latLng1).icon(BitmapDescriptorFactory.fromBitmap(resizedBitmap)));
-                           }
-                       }
-                   }.start();
+                                    .position(latLng1).icon(BitmapDescriptorFactory.fromBitmap(resizedBitmap)));
+                        }
+                    }
+                }.start();
 
-
-
-
-                } else if (num == 1) {
-                    tripName=null;
-                    tripId=null;
-                    start.setBackgroundResource(R.drawable.start);
-                    num = 0;
-                }
             }
         });
         handler = new Handler()

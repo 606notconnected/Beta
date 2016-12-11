@@ -103,7 +103,7 @@ public class picture extends Activity {
         Map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(picture.this, mainView.class));
+              picture.this.finish();
             }
         });
         picture.setOnClickListener(new View.OnClickListener() {

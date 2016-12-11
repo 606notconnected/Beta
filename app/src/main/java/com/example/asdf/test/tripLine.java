@@ -76,8 +76,8 @@ public class tripLine extends Activity implements LocationSource, AMapLocationLi
                 String tmp = msg.obj.toString();
                 if(tmp.equals("true"))
                 {
-                    Toast.makeText(tripLine.this, "成功", Toast.LENGTH_SHORT).show();
-//                  System.out.println(w+"number啦啦啦");
+//                    Toast.makeText(tripLine.this, "成功", Toast.LENGTH_SHORT).show();
+                  System.out.println("tripline获取成功");
                 }
                 else
                 {
@@ -93,34 +93,29 @@ public class tripLine extends Activity implements LocationSource, AMapLocationLi
                     public void run()
                     {
                         httpImage tmpHttpImage = new httpImage();
-                        for(int j=0;j<lookTrip.tripictureNames.size();j++) {
+                        for(int j=0;j<lookTrip.picNames.size();j++) {
                             Bitmap tmpBitmap =null;
+//                            System.out.println(lookTrip.lattt.get(j) + "  0 " + lookTrip.longgg.get(j) + lookTrip.picNames.get(j));
+                            LatLng latLng1 = new LatLng(Double.valueOf(lookTrip.lattt.get(j)), Double.valueOf(lookTrip.longgg.get(j)));
                             tmpBitmap= tmpHttpImage.getBitmap("http://120.27.7.115:1010/api/image?name=" + lookTrip.tripictureNames.get(j), handler1);
-                            System.out.println("number啦啦啦"+lookTrip.tripictureNames.get(j));
-//  MarkerOptions otMarkerOptions = new MarkerOptions();
-//                               otMarkerOptions.icon(BitmapDescriptorFactory.fromBitmap(tmpBitmap));
-//                               otMarkerOptions.position(latLng1);
-//                               aMap.addMarker(otMarkerOptions);
-//                               aMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng1));
-                                LatLng latLng1 = new LatLng(Double.valueOf(lookTrip.lattt.get(j)), Double.valueOf(lookTrip.longgg.get(j)));
-                                //获取这个图片的宽和高
-                                int width = tmpBitmap.getWidth();
-                                int height =tmpBitmap.getHeight();
-                                int newWidth = 80;
-                                int newHeight = 120;
-                                //int newWidth=200;
-                                //   int newHeight=120;
-                                //计算缩放率，新尺寸除原始尺寸
-                                float scaleWidth = ((float) newWidth) / width;
-                                float scaleHeight = ((float) newHeight) / height;
-                                // 创建操作图片用的matrix对象
-                                Matrix matrix = new Matrix();
-                                matrix.postScale(scaleWidth, scaleHeight);
-                                // 创建新的图片
-                                Bitmap resizedBitmap = Bitmap.createBitmap( tmpBitmap, 0, 0, width,
-                                        height, matrix, true);
-                                aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f)//设置锚点
-                                        .position(latLng1).icon(BitmapDescriptorFactory.fromBitmap(resizedBitmap)));
+                            //获取这个图片的宽和高
+                            int width = tmpBitmap.getWidth();
+                            int height = tmpBitmap.getHeight();
+                            int newWidth = 80;
+                            int newHeight = 120;
+                            //int newWidth=200;
+                            //   int newHeight=120;
+                            //计算缩放率，新尺寸除原始尺寸
+                            float scaleWidth = ((float) newWidth) / width;
+                            float scaleHeight = ((float) newHeight) / height;
+                            // 创建操作图片用的matrix对象
+                            Matrix matrix = new Matrix();
+                            matrix.postScale(scaleWidth, scaleHeight);
+                            // 创建新的图片
+                            Bitmap resizedBitmap = Bitmap.createBitmap(tmpBitmap, 0, 0, width,
+                                    height, matrix, true);
+                            aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f)//设置锚点
+                                    .position(latLng1).icon(BitmapDescriptorFactory.fromBitmap(resizedBitmap)));
                         }
                     }
                 }.start();
@@ -136,7 +131,7 @@ public class tripLine extends Activity implements LocationSource, AMapLocationLi
         leftDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               tripLine.this.finish();
+                tripLine.this.finish();
             }
         });
         draw();

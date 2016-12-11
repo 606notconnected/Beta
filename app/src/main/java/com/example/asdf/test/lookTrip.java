@@ -1,6 +1,9 @@
 package com.example.asdf.test;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -34,6 +37,7 @@ import java.util.Map;
  */
 public class lookTrip extends Activity{
     private ImageView leftDrawer;
+    private ArcProgressBar mArcProgressBar;
     private ListView triplist=null;
     httpClient tmp3 = new httpClient();
     public static  List<String> tripictureNames;
@@ -55,14 +59,15 @@ public class lookTrip extends Activity{
         final AlertDialog.Builder builder=new AlertDialog.Builder(this);
         leftDrawer= (ImageView) findViewById(R.id.leftdrawer);
         triplist= (ListView) findViewById(R.id.triplist);
+        mArcProgressBar = (ArcProgressBar) findViewById(R.id.arcProgressBar);
 
         List<Map<String, Object>> list=getData();
+        final int[] yy = {0};
         handler= new android.os.Handler()
         {
             @Override
             public void handleMessage(Message msg) {
                 String tmp = msg.obj.toString();
-                System.out.println(tmp+"looktrip获取信息");
                 tmp = "{" + tmp + "}";
                 Log.d("json", tmp);
 //                Toast.makeText(login.this,tmp, Toast.LENGTH_LONG).show();
@@ -70,13 +75,19 @@ public class lookTrip extends Activity{
                 Gson gson = new Gson();
                 pictureinfor peopl = gson.fromJson(tmp, pictureinfor.class);
                 //Log.i("2333", peopl.getLatitude() + "  0 " + peopl.getLongitude());
+                System.out.println(yy[0] +"999   "+peopl.getLatitude() + "   " +peopl.getLongitude() +"   "+peopl.getImageName());
                 lattt.add(peopl.getLatitude());
                 longgg.add(peopl.getLongitude());
                 picNames.add(peopl.getImageName());
-                if(lattt!=null)
+                if(lattt.size()!=0)
                 {
-                    Log.i("2333",lattt.get(0) + "  0 " + longgg.get(0)+picNames.get(0));
-//                    Toast.makeText(login.this,"获取照片详情成功",Toast.LENGTH_SHORT).show();
+                    System.out.println(yy[0] +"   "+lattt.get(yy[0]) + "   " + longgg.get(yy[0]) +"   "+picNames.get(yy[0]));
+                    Toast.makeText(lookTrip.this,"获取照片详情成功",Toast.LENGTH_SHORT).show();
+                    yy[0]++;
+                }
+                else
+                {
+                    Toast.makeText(lookTrip.this,"获取照片详情失败",Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -104,18 +115,17 @@ public class lookTrip extends Activity{
                     }
                     else {
                         tripictureNames=iii;
-                        startActivity(new Intent(lookTrip.this, friend.class));
                         new Thread() {
                             @Override
                             public void run() {
                                 for(int u=0;u<tripictureNames.size();u++)
                                 {tmp1.getParamTest("http://120.27.7.115:1010/api/imagemessage?imagename=" + tripictureNames.get(u), handler);}
-//                            if(na!=null)
-//                            { tmpBitmap =tmp2.getBitmap("http://120.27.7.115:1010/api/image?name="+na,handler1);}
+
                             }
                         }.start();
                     }
-                    System.out.println(tmp + "0000000000000000" + iii );
+//                    startActivity(new Intent(lookTrip.this,tripLine.class));
+//                    System.out.println(tmp + "0000000000000000" + iii );
 //                tripictureNames.add(md);
                 }
 //                if (tripictureNames!=null) {
@@ -136,12 +146,24 @@ public class lookTrip extends Activity{
                         tmp3.getParamTest("http://120.27.7.115:1010/api/road?roadid=" +tId.get(arg2), handler3);
                     }
                 }.start();
-//                new Thread() {
-//                    @Override
-//                    public void run() {
-//                        tmp.getParamTest("http://120.27.7.115:1010/api/imagemessage?imagename="+tName.get(arg2),handler);
-//                    }
-//                }.start();
+                mArcProgressBar.setVisibility(View.VISIBLE);
+                ValueAnimator valueAnimator =ValueAnimator.ofInt(0, 100);
+                valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        mArcProgressBar.setProgress((int) animation.getAnimatedValue());
+                    }
+                });
+                valueAnimator.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        mArcProgressBar.setProgressDesc("完成");
+                       startActivity(new Intent(lookTrip.this, tripLine.class));
+                    }
+                });
+                valueAnimator.setDuration(8000);
+                valueAnimator.start();
             }
         });
         leftDrawer.setOnClickListener(new View.OnClickListener() {

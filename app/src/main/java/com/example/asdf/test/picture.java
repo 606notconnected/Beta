@@ -43,6 +43,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
 import com.example.asdf.httpClient.httpClient;
 import com.example.asdf.httpClient.httpImage;
 import com.google.gson.Gson;
@@ -71,14 +72,18 @@ public class picture extends Activity {
     public static String na;
 //    private GridView gridView1;              //网格显示缩略图
     private ListView lv_main;
-    httpClient tmp1 = new httpClient();
-    private Handler handler;
     private List<tmpBean> listDatas;
     private tmpAdapter lAdapter;
+    private Handler handler;
     private Handler handler1;
+    private Handler handler2;
+//    private Handler handler3;
     public static Bitmap tmpBitmap;
+    httpImage tmp=new httpImage();
+    httpClient tmp1 = new httpClient();
     httpImage tmp2 = new httpImage();
-    public static ArrayList<String> deletedList = new ArrayList<String>();
+    httpClient tmp3 = new httpClient();
+    int position =0;
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
@@ -169,11 +174,30 @@ public class picture extends Activity {
             }
 
         };
+        handler2 = new android.os.Handler() {
+            public void handleMessage(Message msg) {
+                String tmp = msg.obj.toString();
+                if(tmp.equals("true"))
+                {
+                    Toast.makeText(picture.this, "删除成功", Toast.LENGTH_SHORT).show();
+                    login.lll.remove(position);
+                    listDatas.clear();
+                    initData();
+                    lAdapter.notifyDataSetChanged();
+                    System.out.println("t功");
+                }
+                else
+                {
+                    Toast.makeText(picture.this,"删除失败",Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
         lv_main.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, final int arg2, long arg3) {
                 if (btndelete.getVisibility() == View.VISIBLE) {
                     dialog(arg2);
+                    position=arg2;
                 } else {
                     new Thread() {
                         @Override
@@ -225,13 +249,22 @@ public class picture extends Activity {
             builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    deletedList.add(login.lll.get(position));
-                    login.lll.remove(position);
-                    dialog.dismiss();
-                    listDatas.clear();
-                    initData();
-                    lAdapter.notifyDataSetChanged();
+                    new Thread() {
+                        public void run() {
+                            JSONObject object = new JSONObject();
+                            System.out.println(position + "删除位置");
+                            object.put("imageName", login.lll.get(position));
+                            tmp3.postParamsJson("http://120.27.7.115:1010/api/Image_Delete", object, handler2);
+                        }
+                    }.start();
 //                    deletedList.add(arrayList.get(position));
+//                    if (del = true) {
+//                        dialog.dismiss();
+//                        listDatas.clear();
+//                        initData();
+//                        lAdapter.notifyDataSetChanged();
+//                        del=false;
+//                    }
                 }
             });
             builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {

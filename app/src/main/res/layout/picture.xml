@@ -41,9 +41,8 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="70dp"
             android:textSize="16dp"/>
-    </LinearLayout>
         <LinearLayout
-            android:layout_marginTop="20dp"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -60,7 +59,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:id="@+id/btnupload"
-                android:background="@drawable/upload"
+                android:background="@android:drawable/ic_menu_upload"
                 android:layout_marginLeft="20dp"
                 android:layout_marginBottom="5dp" />
             <Button
@@ -71,6 +70,8 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginBottom="10dp" />
         </LinearLayout>
+    </LinearLayout>
+
         <!--<GridView-->
             <!--android:layout_marginTop="10dp"-->
             <!--android:id="@+id/gridView"-->
@@ -86,6 +87,7 @@
             android:id="@+id/list_sun"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></ListView>
+
     </LinearLayout>
 
 </android.support.v4.widget.DrawerLayout>

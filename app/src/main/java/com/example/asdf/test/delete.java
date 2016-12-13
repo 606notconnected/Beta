@@ -112,6 +112,7 @@ public class delete extends Activity {
                 if(tmp.equals("true"))
                 {
                     Toast.makeText(delete.this, "恢复成功", Toast.LENGTH_SHORT).show();
+                    login.lll.add(deletedList.get(position));
                     deletedList.remove(position);
                     listDatas.clear();
                     initData();

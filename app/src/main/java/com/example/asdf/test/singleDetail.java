@@ -1,13 +1,17 @@
 package com.example.asdf.test;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -18,6 +22,11 @@ import com.example.asdf.httpClient.httpClient;
 import com.example.asdf.httpClient.httpImage;
 import com.google.gson.Gson;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.security.AccessControlContext;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,12 +40,18 @@ public class singleDetail extends Activity {
 //    private ListView replylist;
     private ImageView zp;
     private TextView wz;
+    private Button download;
+    httpImage tmp1=new httpImage();
+    Handler handler1;
+    Bitmap bigImg;
+    private static String path = "/sdcard/旅图/";// sd路径
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.singledetail);
         zp= (ImageView) findViewById(R.id.zp);
         wz= (TextView) findViewById(R.id.wz);
+        download= (Button) findViewById(R.id.download);
         int width=picture.tmpBitmap.getWidth();
         int height=picture.tmpBitmap.getHeight();
         int newWidth = 290;
@@ -62,18 +77,59 @@ public class singleDetail extends Activity {
                 singleDetail.this.finish();
             }
         });
+        handler1 = new android.os.Handler() {
+            public void handleMessage(Message msg) {
+                String tmp = msg.obj.toString();
+                if(tmp.equals("true"))
+                {
+                    Toast.makeText(singleDetail.this, "下载原图成功", Toast.LENGTH_LONG).show();
+                        setPicToView(bigImg);// 保存在SD卡中
+                    System.out.println("t功");
+                }
+                else
+                {
+                    Toast.makeText(singleDetail.this,"下载原图失败",Toast.LENGTH_SHORT).show();
+                    System.out.println("保存失败");
+                }
+            }
+        };
+        download.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(){
+                    @Override
+                    public void run() {
+                        bigImg=tmp1.getBitmap("http://120.27.7.115:1010/api/Image?imagename=" + picture.na, handler1);
+                    }
+                }.start();
+            }
+        });
+    }
+    private void setPicToView(Bitmap mBitmap) {
+        String sdStatus = Environment.getExternalStorageState();
+        if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { // 检测sd是否可用
+            return;
+        }
+        FileOutputStream b = null;
+        File file = new File(path);
+        file.mkdirs();// 创建文件夹
+        String fileName = path +picture.na+".jpg";// 图片名字
+        try {
+            b = new FileOutputStream(fileName);
+            mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, b);// 把数据写入文件
+            Toast.makeText(singleDetail.this,"保存成功",Toast.LENGTH_SHORT).show();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                // 关闭流
+                b.flush();
+                b.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-//                try {
-//                    Thread.sleep( 5000);
-//                    if(picture.tmpBitmap!=null)
-//                        zp.setImageBitmap(picture.tmpBitmap);
-//                    else
-//                        Toast.makeText(singleDetail.this,"照片为空",Toast.LENGTH_LONG).show();
-//                    wz.setText(picture.intro);
-////                    one1.stop();
-//                } catch (InterruptedException e) {
-//                    System.out.println("999999");
-//                }
+        }
     }
 }
 

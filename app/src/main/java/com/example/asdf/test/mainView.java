@@ -101,9 +101,11 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
     private Bitmap head;// 头像Bitmap
     private Handler handler;
     private Handler handler1;
+    private android.os.Handler handler2;
+    private Handler handler3;
     private DrawerLayout drawerLayout;
     private PopupWindow mPopWindow;
-    private   TextView introduce;
+    private TextView introduce;
     httpImage tmp = new httpImage();
     public static String tripName;
     public static List<String> tripNa=null;
@@ -116,12 +118,11 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-    private android.os.Handler handler2;
     httpClient tmp2=new httpClient();
     httpClient tmp1 = new httpClient();
     int j=0;
     JSONObject object = new JSONObject();
-    public  static  List<trip.ttrip> uuu;
+    public  static  List<trip.ttrip> uuu=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -234,8 +235,6 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
 //                               aMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng1));
 
 
-
-
                             //获取这个图片的宽和高
                             int width = tmpBitmap.getWidth();
                             int height = tmpBitmap.getHeight();
@@ -269,6 +268,7 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
                     tmp = "{" + tmp + "}";
                     Gson gson = new Gson();
                     trip tri = gson.fromJson(tmp, trip.class);
+                    if (tri!=null) {
                     uuu = tri.gettripList();
                     lookTrip.tName.clear();
                     lookTrip.tId.clear();
@@ -278,7 +278,6 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
                         lookTrip.tName.add(uuu.get(i).getName());
                         System.out.println(uuu.get(i).getIId()+"  99   "+uuu.get(i).getName());
                     }
-                    if (tri!=null) {
 //                        Toast.makeText(mainView.this, "获取行程列表成功", Toast.LENGTH_SHORT).show();
                     }
                     else {

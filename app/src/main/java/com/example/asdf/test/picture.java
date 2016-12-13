@@ -222,6 +222,7 @@ public class picture extends Activity {
             @Override
             public void onClick(View v) {
                 if (btndelete.getVisibility() == View.VISIBLE) {
+                    picture.this.finish();
                     startActivity(new Intent(picture.this, delete.class));
                 } else {
                     startActivity(new Intent(picture.this, singleDetail.class));

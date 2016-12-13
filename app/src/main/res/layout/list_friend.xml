@@ -19,15 +19,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-        <TextView
-            android:ellipsize="end"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_width="match_parent"
-            android:layout_marginLeft="10dp"
-            android:singleLine="true"
-            android:id="@+id/exampleText"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:ellipsize="end"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:singleLine="true"
+                android:id="@+id/exampleText"
+                android:layout_height="wrap_content" />
             <Button
                 android:layout_width="40dp"
                 android:layout_height="40dp"

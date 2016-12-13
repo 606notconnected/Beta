@@ -45,14 +45,17 @@ public class login extends Activity {
     public static List<String> lll;
     private httpClient tmp = new httpClient();
     private httpClient tmp1= new httpClient();
+    httpClient tmp3 = new httpClient();
     JSONObject object = new JSONObject();
     private android.os.Handler handler;
     private android.os.Handler handler1;
     private android.os.Handler handler2;
     private android.os.Handler handler3;
+    private android.os.Handler handler4;
     public static List<String> longg = new ArrayList<>();
     public static List<String> latt= new ArrayList<>();
     public static List<String> picName=new ArrayList<>();;
+    public static List<res> wat;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -70,7 +73,6 @@ public class login extends Activity {
             public void handleMessage(Message msg) {
                 String tmpq = msg.obj.toString();
                 if (tmpq.equals("true")) {
-                    startActivity(new Intent(login.this, mainView.class));
                     new Thread() {
                         @Override
                         public void run() {
@@ -79,7 +81,8 @@ public class login extends Activity {
 //                            { tmpBitmap =tmp2.getBitmap("http://120.27.7.115:1010/api/image?name="+na,handler1);}
                         }
                     }.start();
-                    login.this.onDestroy();
+                    login.this.finish();
+                    startActivity(new Intent(login.this, mainView.class));
                 } else if (tmp.equals("false")) {
                     Toast.makeText(login.this, "账号或密码出错", Toast.LENGTH_LONG).show();
                 } else if (tmp.equals("error")) {
@@ -167,7 +170,29 @@ public class login extends Activity {
             }
 
         };
+        handler4= new android.os.Handler()
+        {
+            @Override
+            public void handleMessage(Message msg) {
+                String tmp = msg.obj.toString();
+                System.out.println(tmp+"管朱");
+//                    startActivity(new Intent(upload.this, mainView.class));
+                tmp = "{" + tmp + "}";
+                Gson gson = new Gson();
+                tmp=tmp.trim();
+                watchs watc = gson.fromJson(tmp, watchs.class);
+                String rs=watc.getresult();
+//                System.out.println(watc+"00"+wat+"关注列表"+rs);
+                if (rs.equals("true")) {
+                    System.out.println("获取关注列表成功");
+                    wat = watc.getwatchsList();
+                }
+                else {
+                    System.out.println("获取关注列表不成功");
+                }
+            }
 
+        };
         /*String  paramsString = object.toJSONString();*/
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -187,8 +212,7 @@ public class login extends Activity {
                         public void run() {
                             if(account!=null&&password!=null) {
                                 tmp.postParamsJson("http://120.27.7.115:1010/api/login", object, handler);
-//                                tmp.getParamTest("http://120.27.7.115:1010/api/imagemessage?account=" + account, handler2);
-//                                tmp.getParamTest("http://120.27.7.115:1010/api/usermessage" + "?account=" + account, handler1);
+                                tmp3.getParamTest("http://120.27.7.115:1010/api/Follower?account=" +account, handler4);
                             }
                         }
                     }.start();
@@ -266,5 +290,16 @@ public class login extends Activity {
             return introduction;
         }
     }
-
+    class watchs
+    {
+        private String result;
+        private List<res>userList;
+        public String getresult(){
+            return result;
+        }
+        public List<res> getwatchsList()
+        {
+            return userList;
+        }
+    }
 }

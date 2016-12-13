@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,7 +75,7 @@ public class listViewAdapter extends BaseAdapter {
             }
             //绑定数据
             zujian.love.setBackgroundResource((Integer)data.get(position).get("love"));
-            zujian.examplePicture.setBackgroundResource((Integer)data.get(position).get("examplePicture"));
+            zujian.examplePicture.setBackgroundDrawable((Drawable) data.get(position).get("examplePicture"));
             zujian.friendName.setText((String) data.get(position).get("friendName"));
             zujian.exampletext.setText((String)data.get(position).get("exampletext"));
             zujian.lovetext.setText("添加关注");

@@ -39,19 +39,23 @@
         android:textCursorDrawable="@null"
         android:background="@drawable/round_edittext"
         android:textSize="12dp"
+        android:id="@+id/searname"
+        android:gravity="center_horizontal|center_vertical"
         android:hint="请输入好友昵称或者手机号"/>
-        <EditText
+        <Button
             android:layout_width="80dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="40dp"
             android:layout_height="30dp"
+            android:id="@+id/search"
             android:gravity="center_horizontal|center_vertical"
-            android:background="@drawable/round_edittext"
+            android:background="@drawable/round_button"
             android:text="搜索"/>
     </LinearLayout>
     <ListView
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
         android:id="@+id/addWatchListview">
     </ListView>

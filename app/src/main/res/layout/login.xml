@@ -87,21 +87,22 @@
             android:orientation="horizontal">
             <Button
                 android:id="@+id/register"
-                android:layout_width="match_parent"
+                android:layout_width="100dp"
                 android:textSize="15dp"
-                android:background="@drawable/round_button"
-                android:layout_height="wrap_content"
+                android:background="@drawable/round_button_search"
+                android:layout_height="30dp"
                 android:layout_weight="0.5"
                 android:layout_marginLeft="30dp"
                 android:textColor="#999999"
                 android:text="注册"/>
             <TextView
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="30dp"
                 android:clickable="true"
                 android:id="@+id/forgetPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
                 android:layout_weight="0.5"
+                android:background="@drawable/round_button_search"
                 android:textColor="#999999"
                 android:text="忘记密码？" />
         </LinearLayout>
@@ -116,13 +117,11 @@
         <Button
             android:id="@+id/login"
             android:layout_width="match_parent"
-            android:layout_marginRight="30dp"
             android:textSize="20dp"
             android:layout_height="45dp"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:background="@drawable/round_button"
-            android:layout_marginLeft="20dp"
             android:textColor="#ffffff"
             android:text="登录"/>
     </LinearLayout>

@@ -234,7 +234,6 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
 //                               aMap.addMarker(otMarkerOptions);
 //                               aMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng1));
 
-
                             //获取这个图片的宽和高
                             int width = tmpBitmap.getWidth();
                             int height = tmpBitmap.getHeight();
@@ -251,6 +250,7 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
                             // 创建新的图片
                             Bitmap resizedBitmap = Bitmap.createBitmap(tmpBitmap, 0, 0, width,
                                     height, matrix, true);
+                            resizedBitmap=Bitmap.createBitmap(resizedBitmap, 0, 10, 80, 80, null, false);
                             aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f)//设置锚点
                                     .position(latLng1).icon(BitmapDescriptorFactory.fromBitmap(resizedBitmap)));
                         }

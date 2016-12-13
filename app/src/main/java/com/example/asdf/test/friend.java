@@ -20,7 +20,9 @@ import android.widget.Toast;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MarkerOptions;
+import com.example.asdf.httpClient.httpClient;
 import com.example.asdf.httpClient.httpImage;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,39 +39,46 @@ public class friend extends Activity implements AdapterView.OnItemClickListener{
 //    private ListView friendListview=null;
     List<Map<String, Object>> list;
     private ListView lv_main;
+    private Handler handler;
     private List<tmpBean> listDatas;
     private tmpAdapter lAdapter;
+    httpClient tmp1 = new httpClient();
     int i;
     int w=0;
-    Adapter adapter;
+    listViewForFriend adapter;
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friend);
         lv_main = (ListView) findViewById(R.id.friendListview);
-//        listDatas = new ArrayList<>();
-//        lAdapter = new tmpAdapter(listDatas, this);
-//        ooo= (ImageView) findViewById(R.id.ooo);照片详情
         leftDrawer= (ImageView) findViewById(R.id.leftdrawer);
-//        friendListview= (ListView) findViewById(R.id.friendListview);
-//        cancelWatch= (ImageView) findViewById(R.id.cancelWatch);
         list=getData();
         adapter=new listViewForFriend(this, list,mListener);
         lv_main.setAdapter((ListAdapter) adapter);
-//        friendListview.setAdapter((ListAdapter) adapter);
         leftDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 friend.this.finish();
             }
         });
-//        cancelWatch.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                cancelWatch.setBackgroundResource(R.drawable.before);
-//                watchFriend.friendsnumber--;
-//            }
-//        });
+        handler = new Handler()
+        {
+            @Override
+            public void handleMessage(Message msg) {
+                String tmp = msg.obj.toString();
+                tmp = "{" + tmp + "}";
+                if(tmp.equals("true"))
+                {
+                    System.out.println("点赞成功");
+                    Toast.makeText(friend.this,"点赞成功",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(friend.this,"点赞不成功",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        };
         lv_main.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -102,11 +111,19 @@ public class friend extends Activity implements AdapterView.OnItemClickListener{
     private iClick mListener = new iClick() {
         @Override
         public void listViewItemClick(int position, View v) {
-            Toast.makeText(
-                    friend.this,
-                    "listview的内部的按钮被点击了！，位置是-->" + position + ",内容是-->"
-                            + list.get(position), Toast.LENGTH_SHORT)
-                    .show();
+//            Toast.makeText(
+//                    friend.this,
+//                    "listview的内部的按钮被点击了！，位置是-->" + position + ",内容是-->"
+//                            + list.get(position), Toast.LENGTH_SHORT)
+//                    .show();
+            new Thread() {
+                @Override
+                public void run() {
+                    tmp1.getParamTest("http://120.27.7.115:1010/api/imagemessage?imagename=", handler);
+//                            if(na!=null)
+//                            { tmpBitmap =tmp2.getBitmap("http://120.27.7.115:1010/api/image?name="+na,handler1);}
+                }
+            }.start();
             List<Map<String, Object>> listt=new ArrayList<Map<String,Object>>();
             for (int i = 0; i < 10; i++) {
                 Map<String, Object> map=new HashMap<String, Object>();
@@ -120,20 +137,7 @@ public class friend extends Activity implements AdapterView.OnItemClickListener{
                 map.put("exampletext", "oj木有小丁丁oj木有小丁丁oj木有小丁丁oj木有小丁丁oj木有小丁丁oj木有小丁丁");
                 listt.add(map);
             }
-            adapter=new listViewForFriend(friend.this,listt,mListener);
-            lv_main.setAdapter((ListAdapter) adapter);
         }
     };
-//    private void initData() {
-//        List<tmpBean> sun1 = new ArrayList<>() ;
-//        for(i=0;i<lookTrip.tripictureNames.size();i++) {
-//            sun1.add(new tmpBean());
-//            sun1.get(i).setPicUrl("http://120.27.7.115:1010/api/image" + "?name=" + lookTrip.tripictureNames.get(i));
-//            System.out.println( lookTrip.tripictureNames.get(i)+"friend 界面");
-//            listDatas.add(sun1.get(i));
-//        }
-//    }
-
-
 }
 

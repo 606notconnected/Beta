@@ -88,7 +88,7 @@ public class lookTrip extends Activity{
                     System.out.println(yy[0] + "   " + lattt.get(yy[0]) + "   " + longgg.get(yy[0]) + "   " + picNames.get(yy[0]));
                     getnum++;
                     if(getnum==tripictureNames.size())
-                        startActivity(new Intent(lookTrip.this,tripLine.class));
+                    { startActivity(new Intent(lookTrip.this,tripLine.class));getnum=0;}
 //                    Toast.makeText(lookTrip.this, "获取照片详情成功", Toast.LENGTH_SHORT).show();
                 }
                 else

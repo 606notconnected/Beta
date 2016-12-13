@@ -40,6 +40,7 @@ import com.example.asdf.httpClient.httpImage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class tripLine extends Activity implements LocationSource, AMapLocationListener {
@@ -106,9 +107,9 @@ public class tripLine extends Activity implements LocationSource, AMapLocationLi
                         // 创建操作图片用的matrix对象
                         Matrix matrix = new Matrix();
                         matrix.postScale(scaleWidth, scaleHeight);
-                        // 创建新的图片
                         Bitmap resizedBitmap = Bitmap.createBitmap(tmpBitmap, 0, 0, width,
                                 height, matrix, true);
+                       resizedBitmap=Bitmap.createBitmap(resizedBitmap, 0, 10, 80, 80, null, false);
                         aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f)//设置锚点
                                 .position(latLng1).icon(BitmapDescriptorFactory.fromBitmap(resizedBitmap)));
                     }
@@ -118,10 +119,8 @@ public class tripLine extends Activity implements LocationSource, AMapLocationLi
         friendHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Thread()
-                {
-                    public void run()
-                    {
+                new Thread() {
+                    public void run() {
                         httpImage tmpHttpImage = new httpImage();
 
                     }
@@ -141,7 +140,8 @@ public class tripLine extends Activity implements LocationSource, AMapLocationLi
                 tripLine.this.finish();
             }
         });
-draw();
+        aMap.clear();
+        draw();
     }
 
     /**
@@ -289,9 +289,9 @@ draw();
     public void draw() {
         PolylineOptions polylineOptions = new PolylineOptions();
         //设置线的宽度
-        polylineOptions.width(10);
+        polylineOptions.width(3);
         //设置线的颜色
-        polylineOptions.color(Color.RED);
+        polylineOptions.color(0xFFA020F0);
         //设置线是否可见
         polylineOptions.visible(true);
         List<LatLng> points = new ArrayList<LatLng>();

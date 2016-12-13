@@ -96,7 +96,6 @@ public class watchFriend extends Activity implements AdapterView.OnItemClickList
                 }
             }
         };
-
     }
 
     public List<Map<String, Object>> getData() {
@@ -122,10 +121,6 @@ public class watchFriend extends Activity implements AdapterView.OnItemClickList
     // 响应item点击事件
 //    @Override
     public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
-        Toast.makeText(this, "listview的item被点击了！，点击的位置是-->" + position,
-                Toast.LENGTH_SHORT).show();
-//        startActivity(new Intent(watchFriend.this, friend.class));
-
     }
 
     /**

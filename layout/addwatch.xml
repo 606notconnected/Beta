@@ -6,14 +6,14 @@
     android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="56dp"
         android:background="#7A4BFF"
         android:orientation="horizontal">
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginTop="15dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="16dp"
             android:id="@+id/leftdrawer"
             android:background="@drawable/back"/>
         <TextView
@@ -34,7 +34,7 @@
     <EditText
         android:layout_width="200dp"
         android:layout_height="30dp"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="40dp"
         android:layout_marginTop="40dp"
         android:textCursorDrawable="@null"
         android:background="#ffffff"
@@ -42,7 +42,7 @@
         android:hint="请输入好友昵称或者手机号"/>
         <EditText
             android:layout_width="80dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="17dp"
             android:layout_marginTop="40dp"
             android:layout_height="30dp"
             android:gravity="center_horizontal|center_vertical"

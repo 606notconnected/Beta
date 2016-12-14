@@ -7,18 +7,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background12"
+        android:background="#ffffff"
         android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="56dp"
         android:background="#7A4BFF"
         android:orientation="horizontal">
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginTop="15dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="16dp"
             android:id="@+id/leftdrawer"
             android:background="@drawable/back"/>
         <TextView
@@ -29,7 +29,7 @@
             android:clickable="true"
             android:id="@+id/Map"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="70dp"
+            android:layout_marginLeft="80dp"
             android:textSize="16dp"/>
         <TextView
             android:textColor="#ffffff"
@@ -39,7 +39,7 @@
             android:clickable="true"
             android:id="@+id/picture"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="70dp"
+            android:layout_marginLeft="80dp"
             android:textSize="16dp"/>
     </LinearLayout>
         <LinearLayout

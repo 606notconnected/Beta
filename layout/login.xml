@@ -6,7 +6,7 @@
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="56dp"
         android:background="#7A4BFF"
         android:orientation="horizontal">
         <TextView
@@ -37,15 +37,19 @@
                 android:layout_height="wrap_content"
                 android:text="账号："
                 android:textSize="16dp"/>-->
-            <EditText
-                android:textCursorDrawable="@null"
-                android:background="@drawable/round_edittext"
-                android:id="@+id/account"
-                android:singleLine="true"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:textSize="16dp"
-                android:layout_height="40dp"
-                android:hint="  请输入您的手机号"/>
+                android:layout_height="wrap_content">
+                <EditText
+                    android:textCursorDrawable="@null"
+                    android:background="@drawable/round_edittext"
+                    android:id="@+id/account"
+                    android:singleLine="true"
+                    android:layout_width="match_parent"
+                    android:textSize="16dp"
+                    android:layout_height="40dp"
+                    android:hint="  请输入您的手机号"/>
+            </android.support.design.widget.TextInputLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,16 +63,20 @@
                 android:layout_height="40dp"
                 android:text="密码："
                 android:textSize="16dp"/>-->
-            <EditText
-                android:id="@+id/password"
-                android:background="@drawable/round_edittext"
-                android:singleLine="true"
-                android:password="true"
-                android:textSize="16dp"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:textCursorDrawable="@null"
-                android:layout_height="40dp"
-                android:hint="  请输入密码"/>
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/password"
+                    android:background="@drawable/round_edittext"
+                    android:singleLine="true"
+                    android:password="true"
+                    android:textSize="16dp"
+                    android:layout_width="match_parent"
+                    android:textCursorDrawable="@null"
+                    android:layout_height="40dp"
+                    android:hint="  请输入密码"/>
+            </android.support.design.widget.TextInputLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -110,7 +118,7 @@
             android:layout_width="match_parent"
             android:layout_marginRight="30dp"
             android:textSize="20dp"
-            android:layout_height="45dp"
+            android:layout_height="46dp"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:background="@drawable/round_button"

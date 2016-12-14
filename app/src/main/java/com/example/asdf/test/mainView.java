@@ -118,6 +118,7 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+    httpImage tmp3=new httpImage();
     httpClient tmp2=new httpClient();
     httpClient tmp1 = new httpClient();
     int j=0;
@@ -168,6 +169,21 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
                     Toast.makeText(mainView.this, "可以上传图片啦", Toast.LENGTH_SHORT).show();
                 } else if (tmp.equals("error")) {
                     Toast.makeText(mainView.this, "服务器出错", Toast.LENGTH_LONG).show();
+                }
+            }
+
+        };
+        handler3 = new android.os.Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                String tmp = msg.obj.toString();
+//                Toast.makeText(mainView.this, tmp, Toast.LENGTH_LONG).show();
+                if (tmp!="error") {
+                    Toast.makeText(mainView.this, "上传头像成功", Toast.LENGTH_SHORT).show();
+                    System.out.println("上传头像成功");
+                } else if (tmp.equals("error")) {
+                    Toast.makeText(mainView.this, "上传头像出错", Toast.LENGTH_LONG).show();
+                    System.out.println("上传头像不成功");
                 }
             }
 
@@ -228,12 +244,6 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
                             LatLng latLng1 = new LatLng(Double.valueOf(login.latt.get(j)), Double.valueOf(login.longg.get(j)));
                             Bitmap tmpBitmap = null;
                             tmpBitmap = tmpHttpImage.getBitmap("http://120.27.7.115:1010/api/image?name=" + login.picName.get(j), handler1);
-//                               MarkerOptions otMarkerOptions = new MarkerOptions();
-//                               otMarkerOptions.icon(BitmapDescriptorFactory.fromBitmap(tmpBitmap));
-//                               otMarkerOptions.position(latLng1);
-//                               aMap.addMarker(otMarkerOptions);
-//                               aMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng1));
-
                             //获取这个图片的宽和高
                             int width = tmpBitmap.getWidth();
                             int height = tmpBitmap.getHeight();
@@ -361,12 +371,10 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
         if (bt != null) {
             @SuppressWarnings("deprecation")
             Drawable drawable = new BitmapDrawable(toRoundBitmap(bt));// 转换成drawable
+//            System.out.println(mainView.tripId+" Id "+tmp2+"  "+date + "  time " + lon + "  纬度 " + lat + "  经度  "+introduction);
             myhead.setImageDrawable(drawable);
         } else {
-            /**
-             * 如果SD里面没有则需要从服务器取头像，取回来的头像再保存在SD中
-             *
-             */
+
         }
         mapView = (MapView) findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
@@ -433,7 +441,15 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
                     Bundle extras = data.getExtras();
                     head = extras.getParcelable("data");
                     if (head != null) {
-                        //发送
+                        new Thread()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                File tm = new File(path + "myhead.jpg");
+                                tmp3.uploadFile(tm,"http://120.27.7.115:1010/api/Image_Head", handler3, login.account);
+                            }
+                        }.start();
                         setPicToView(head);// 保存在SD卡中
                         myhead.setImageBitmap(toRoundBitmap(head));// 用ImageView显示出来
                     }

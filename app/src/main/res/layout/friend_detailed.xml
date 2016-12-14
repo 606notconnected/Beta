@@ -49,27 +49,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <ListView
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="#ffffff"
-        android:id="@+id/replylist" />
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#ffffff"
+            android:id="@+id/replylist" />
         <EditText
-        android:layout_width="match_parent"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:background="#ffffff"
-        android:layout_height="100dp" />
+            android:layout_width="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:background="#ffffff"
+            android:layout_height="100dp" />
         <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
             android:background="@drawable/round_button"
-        android:layout_marginTop="10dp"
-        android:layout_gravity="end"
-        android:text="回复"/>
+            android:layout_marginTop="10dp"
+            android:layout_gravity="end"
+            android:text="评论"/>
     </LinearLayout>
 </LinearLayout>

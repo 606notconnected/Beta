@@ -34,6 +34,7 @@ import com.amap.api.maps.model.GroundOverlay;
 import com.amap.api.maps.model.GroundOverlayOptions;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
+import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.PolylineOptions;
 import com.example.asdf.httpClient.httpImage;
@@ -112,7 +113,11 @@ public class tripLine extends Activity implements LocationSource, AMapLocationLi
                        resizedBitmap=Bitmap.createBitmap(resizedBitmap, 0, 10, 80, 80, null, false);
                         aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f)//设置锚点
                                 .position(latLng1).icon(BitmapDescriptorFactory.fromBitmap(resizedBitmap)));
+                        // 自定义的聚合类MyMarkerCluster
                     }
+                LatLng latLng1 = new LatLng(Double.valueOf(lookTrip.lattt.get(0)), Double.valueOf(lookTrip.longgg.get(0)));
+                aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f)//设置锚点
+                        .position(latLng1));
                 }
 
         }.start();

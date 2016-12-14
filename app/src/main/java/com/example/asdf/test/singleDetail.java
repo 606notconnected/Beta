@@ -2,8 +2,11 @@ package com.example.asdf.test;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -31,13 +35,16 @@ import java.security.AccessControlContext;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Useradmin on 2016/11/12.
  */
 public class singleDetail extends Activity {
     private ImageView leftDrawer;
-//    private ListView replylist;
+    private ListView replylist;
+    private  commentListview adapter;
+    private List<Map<String, Object>> list = null;
     private ImageView zp;
     private TextView wz;
     private Button download;
@@ -52,6 +59,10 @@ public class singleDetail extends Activity {
         zp= (ImageView) findViewById(R.id.zp);
         wz= (TextView) findViewById(R.id.wz);
         download= (Button) findViewById(R.id.download);
+        replylist= (ListView) findViewById(R.id.replylist);
+        list=getData();
+        adapter = new commentListview(this,list);
+        replylist.setAdapter(adapter);
         int width=picture.tmpBitmap.getWidth();
         int height=picture.tmpBitmap.getHeight();
         int newWidth = 290;
@@ -130,6 +141,19 @@ public class singleDetail extends Activity {
             }
 
         }
+    }
+    public List<Map<String, Object>> getData() {
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        for (int i = 0; i < login.wat.size(); i++) {
+            if (login.wat.get(i).getaccount()!=null) {
+                System.out.println(picture.comlist.get(i).getaccount()+"获取的name");
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("name",picture.comlist.get(i).getaccount());
+                map.put("comment", picture.comlist.get(i).getcomment());
+                list.add(map);
+            }
+        }
+        return list;
     }
 }
 

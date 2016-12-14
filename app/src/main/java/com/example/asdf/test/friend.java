@@ -40,11 +40,11 @@ public class friend extends Activity implements AdapterView.OnItemClickListener{
     List<Map<String, Object>> list;
     private ListView lv_main;
     private Handler handler;
-    private List<tmpBean> listDatas;
-    private tmpAdapter lAdapter;
+    private Handler handler3;
+    httpClient tmp2 =new httpClient();
     httpClient tmp1 = new httpClient();
+    public static  List<commen> friendcomlist;
     int i;
-    int w=0;
     listViewForFriend adapter;
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -79,11 +79,42 @@ public class friend extends Activity implements AdapterView.OnItemClickListener{
             }
 
         };
+        handler3= new Handler()
+        {
+            @Override
+            public void handleMessage(Message msg) {
+                String tmp = msg.obj.toString();
+                tmp = "{" + tmp + "}";
+                System.out.println(tmp+"获取评论");
+                Log.d("json", tmp);
+                Gson gson = new Gson();
+                comment comli = gson.fromJson(tmp, comment.class);
+                friendcomlist=comli.getcoList();
+                String a=comli.getresult();
+                if(a.equals("true"))
+                {
+                    System.out.println("获取评论成功");
+                    startActivity(new Intent(friend.this, friendDetailed.class));
+//                    Toast.makeText(picture.this,"获取照片详情成功",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    System.out.println("获取评论失败");
+                    Toast.makeText(friend.this,"获取评论失败",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        };
         lv_main.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(friend.this,"oo"+position,Toast.LENGTH_LONG).show();
-                startActivity(new Intent(friend.this, friendDetailed.class));
+//                Toast.makeText(friend.this,"oo"+position,Toast.LENGTH_LONG).show();
+                new Thread() {
+                    @Override
+                    public void run() {
+                        tmp2.getParamTest("http://120.27.7.115:1010/api/Comment?imageName=" , handler3);
+                    }
+                }.start();
             }
         });
     }
@@ -139,5 +170,39 @@ public class friend extends Activity implements AdapterView.OnItemClickListener{
             }
         }
     };
+    class comment
+    {
+        private String result;
+        private List<commen>commentBackList;
+        public String getresult(){
+            return result;
+        }
+        public List<commen> getcoList()
+        {
+            return commentBackList;
+        }
+    }
+    public class commen {
+        private String commentID;
+        private String account;
+        private String comment;
+        private String imageName;
+        private String dateTime;
+        public String getcommentID(){
+            return commentID;
+        }
+        public String getaccount(){
+            return account;
+        }
+        public String getcomment(){
+            return comment;
+        }
+        public String getimageName(){
+            return imageName;
+        }
+        public String getdateTime(){
+            return dateTime;
+        }
+    }
 }
 

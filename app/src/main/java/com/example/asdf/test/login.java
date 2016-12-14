@@ -46,16 +46,19 @@ public class login extends Activity {
     private httpClient tmp = new httpClient();
     private httpClient tmp1= new httpClient();
     httpClient tmp3 = new httpClient();
+    httpClient tmp4=new httpClient();
     JSONObject object = new JSONObject();
     private android.os.Handler handler;
     private android.os.Handler handler1;
     private android.os.Handler handler2;
     private android.os.Handler handler3;
     private android.os.Handler handler4;
+    private android.os.Handler handler5;
     public static List<String> longg = new ArrayList<>();
     public static List<String> latt= new ArrayList<>();
     public static List<String> picName=new ArrayList<>();;
     public static List<res> wat;
+    public static List<String> friendHeadList=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -83,9 +86,9 @@ public class login extends Activity {
                     }.start();
                     login.this.finish();
                     startActivity(new Intent(login.this, mainView.class));
-                } else if (tmp.equals("false")) {
+                } else if (tmpq.equals("false")) {
                     Toast.makeText(login.this, "账号或密码出错", Toast.LENGTH_LONG).show();
-                } else if (tmp.equals("error")) {
+                } else if (tmpq.equals("error")) {
                     Toast.makeText(login.this, "服务器出错", Toast.LENGTH_LONG).show();
                 }
                 }
@@ -100,8 +103,6 @@ public class login extends Activity {
                 System.out.println(tmp+"login获取信息");
                 tmp = "{" + tmp + "}";
                 Log.d("json", tmp);
-//                Toast.makeText(login.this,tmp, Toast.LENGTH_LONG).show();
-//  String jsonData = "{\"account\":\"John\", \"userName\":20,\"sex\":\"jj\",\"introduction\":\"111\",\"email\":\"Joh22n\",}";;
                 Gson gson = new Gson();
                 pictureinfor peopl = gson.fromJson(tmp, pictureinfor.class);
                //Log.i("2333", peopl.getLatitude() + "  0 " + peopl.getLongitude());
@@ -112,6 +113,28 @@ public class login extends Activity {
                 {
                     Log.i("2333",latt.get(0) + "  0 " + longg.get(0)+picName.get(0));
 //                    Toast.makeText(login.this,"获取照片详情成功",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        };
+        handler5 = new android.os.Handler()
+        {
+            @Override
+            public void handleMessage(Message msg) {
+                String tmp = msg.obj.toString();
+                tmp = "{" + tmp + "}";
+                Gson gson = new Gson();
+                friendHead frhe = gson.fromJson(tmp, friendHead.class);
+                String y=frhe.getresult();
+                System.out.println(tmp+"000000000000000"+y);
+                if(y.equals("true"))
+                {
+                    friendHeadList.add(frhe.gethead());
+                    Toast.makeText(login.this,"获取好友头像详情成功",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    System.out.println("获取好友头像详情不成功");
                 }
             }
 
@@ -184,6 +207,15 @@ public class login extends Activity {
                 String rs=watc.getresult();
 //                System.out.println(watc+"00"+wat+"关注列表"+rs);
                 if (rs.equals("true")) {
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                for (int i = 0; i < wat.size(); i++) {
+                                    System.out.println( wat.get(i).getaccount());
+                                    tmp4.getParamTest("http://120.27.7.115:1010/api/Image_Head?account=" + wat.get(i).getaccount(), handler5);
+                                }
+                            }
+                        }.start();
                     System.out.println("获取关注列表成功");
                     wat = watc.getwatchsList();
                 }
@@ -300,6 +332,18 @@ public class login extends Activity {
         public List<res> getwatchsList()
         {
             return userList;
+        }
+    }
+    class friendHead
+    {
+        private String result;
+        private String imageName;
+        public String getresult(){
+            return result;
+        }
+        public String gethead()
+        {
+            return imageName;
         }
     }
 }

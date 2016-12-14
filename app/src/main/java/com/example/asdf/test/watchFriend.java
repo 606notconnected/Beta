@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.asdf.httpClient.httpClient;
+import com.example.asdf.httpClient.httpImage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,6 +45,8 @@ public class watchFriend extends Activity implements AdapterView.OnItemClickList
     private ImageView leftDrawer;
     private ListView watch_friend;
     httpClient tmp2=new httpClient();
+    httpImage tmp4=new httpImage();
+    private android.os.Handler handler4;
     private android.os.Handler handler1;
     private List<Map<String, Object>> list = null;
     int place;
@@ -72,6 +75,13 @@ public class watchFriend extends Activity implements AdapterView.OnItemClickList
                 startActivity(new Intent(watchFriend.this, friend.class));
             }
         });
+        new Thread()
+        {
+            public void run()
+            {
+//                tmpBitmap =tmp4.getBitmap("http://120.27.7.115:1010/api/image?name="+login.friendHeadList.get(i),handler4);
+            }
+        }.start();
         leftDrawer = (ImageView) findViewById(R.id.leftdrawer);
         leftDrawer.setOnClickListener(new View.OnClickListener() {
             @Override

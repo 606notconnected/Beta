@@ -58,9 +58,6 @@ import java.util.List;
  * Created by Useradmin on 2016/10/23.
  */
 public class picture extends Activity {
-    private Button add;//添加
-    private Button btnupload;//上传
-    private Button btndelete;//删除
     private ImageView leftDrawer;
     private TextView Map;//地图
     private TextView picture;//查看照片
@@ -70,6 +67,7 @@ public class picture extends Activity {
     int screenHeigh;
     public static String intro;
     public static String na;
+    public static  List<commen> comlist;
 //    private GridView gridView1;              //网格显示缩略图
     private ListView lv_main;
     private List<tmpBean> listDatas;
@@ -77,12 +75,13 @@ public class picture extends Activity {
     private Handler handler;
     private Handler handler1;
     private Handler handler2;
-//    private Handler handler3;
+    private Handler handler3;
     public static Bitmap tmpBitmap;
     httpImage tmp=new httpImage();
     httpClient tmp1 = new httpClient();
     httpImage tmp2 = new httpImage();
     httpClient tmp3 = new httpClient();
+    httpClient tmp4 = new httpClient();
     int position =0;
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -98,12 +97,9 @@ public class picture extends Activity {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         screenWidth = dm.widthPixels;
         screenHeigh = dm.heightPixels;
-        add = (Button) findViewById(R.id.add);
-        btnupload = (Button) findViewById(R.id.btnupload);
         leftDrawer = (ImageView) findViewById(R.id.leftdrawer);
         Map = (TextView) findViewById(R.id.Map);
         picture = (TextView) findViewById(R.id.picture);
-        btndelete = (Button) findViewById(R.id.btndelete);
 //        gridView1 = (GridView) findViewById(R.id.gridView);
         Map.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,20 +117,6 @@ public class picture extends Activity {
             @Override
             public void onClick(View v) {
                 picture.this.finish();
-            }
-        });
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (num == 0) {
-                    btndelete.setVisibility(View.VISIBLE);
-                    btnupload.setVisibility(View.VISIBLE);
-                    num = 1;
-                } else if (num == 1) {
-                    btndelete.setVisibility(View.INVISIBLE);
-                    btnupload.setVisibility(View.INVISIBLE);
-                    num = 0;
-                }
             }
         });
         handler = new Handler()
@@ -170,7 +152,19 @@ public class picture extends Activity {
             public void handleMessage(Message msg) {
                 String tmp = msg.obj.toString();
                     System.out.println(tmp+"single");
-                startActivity(new Intent(picture.this, singleDetail.class));
+                if(tmp.equals("true")) {
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            System.out.println(na+"照片名");
+                            tmp4.getParamTest("http://120.27.7.115:1010/api/Comment?imageName=" + na, handler3);
+                        }
+                    }.start();
+//                    startActivity(new Intent(picture.this, singleDetail.class));
+                }
+                else{
+                    System.out.println("获取照片详情失败");
+                }
             }
 
         };
@@ -192,44 +186,53 @@ public class picture extends Activity {
                 }
             }
         };
+        handler3= new Handler()
+        {
+            @Override
+            public void handleMessage(Message msg) {
+                String tmp = msg.obj.toString();
+                tmp = "{" + tmp + "}";
+                System.out.println(tmp+"获取评论");
+                Log.d("json", tmp);
+                Gson gson = new Gson();
+                comment comli = gson.fromJson(tmp, comment.class);
+                comlist=comli.getcoList();
+                String a=comli.getresult();
+                if(a.equals("true"))
+                {
+                    System.out.println("获取评论成功");
+                    startActivity(new Intent(picture.this, singleDetail.class));
+//                    Toast.makeText(picture.this,"获取照片详情成功",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    System.out.println("获取评论失败");
+                    Toast.makeText(picture.this,"获取评论失败",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        };
         lv_main.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, final int arg2, long arg3) {
-                if (btndelete.getVisibility() == View.VISIBLE) {
-                    dialog(arg2);
-                    position=arg2;
-                } else {
+                position = arg2;
                     new Thread() {
                         @Override
                         public void run() {
                             tmp1.getParamTest("http://120.27.7.115:1010/api/imagemessage?imagename=" + login.lll.get(arg2), handler);
-//                            if(na!=null)
-//                            { tmpBitmap =tmp2.getBitmap("http://120.27.7.115:1010/api/image?name="+na,handler1);}
                         }
                     }.start();
-                }
             }
         });
-        btnupload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (btnupload.getVisibility() == View.VISIBLE) {
-                    startActivity(new Intent(picture.this, upload.class));
-                }
-            }
-        });
-        btndelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (btndelete.getVisibility() == View.VISIBLE) {
-                    picture.this.finish();
-                    startActivity(new Intent(picture.this, delete.class));
-                } else {
-                    startActivity(new Intent(picture.this, singleDetail.class));
-                }
-            }
-        });
+        lv_main.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view,
+                                           int position, long id) {
+                dialog(position);
+                return true;
+            }
+        });
     }
     private void initData() {
         List<tmpBean> sun1 = new ArrayList<>() ;
@@ -258,14 +261,6 @@ public class picture extends Activity {
                             tmp3.postParamsJson("http://120.27.7.115:1010/api/Image_Delete", object, handler2);
                         }
                     }.start();
-//                    deletedList.add(arrayList.get(position));
-//                    if (del = true) {
-//                        dialog.dismiss();
-//                        listDatas.clear();
-//                        initData();
-//                        lAdapter.notifyDataSetChanged();
-//                        del=false;
-//                    }
                 }
             });
             builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -298,4 +293,39 @@ public class picture extends Activity {
             return introduction;
         }
     }
+    class comment
+    {
+        private String result;
+        private List<commen>commentBackList;
+        public String getresult(){
+            return result;
+        }
+        public List<commen> getcoList()
+        {
+            return commentBackList;
+        }
+    }
+    public class commen {
+        private String commentID;
+        private String account;
+        private String comment;
+        private String imageName;
+        private String dateTime;
+        public String getcommentID(){
+            return commentID;
+        }
+        public String getaccount(){
+            return account;
+        }
+        public String getcomment(){
+            return comment;
+        }
+        public String getimageName(){
+            return imageName;
+        }
+        public String getdateTime(){
+            return dateTime;
+        }
+    }
+
 }

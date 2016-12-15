@@ -153,26 +153,6 @@ public class lookTrip extends Activity{
                         tmp3.getParamTest("http://120.27.7.115:1010/api/road?roadid=" +tId.get(arg2), handler3);
                     }
                 }.start();
-//                if(tripictureNames.size()!=0) {
-//                    mArcProgressBar.setVisibility(View.VISIBLE);
-//                    ValueAnimator valueAnimator = ValueAnimator.ofInt(0, 100);
-//                    valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-//                        @Override
-//                        public void onAnimationUpdate(ValueAnimator animation) {
-//                            mArcProgressBar.setProgress((int) animation.getAnimatedValue());
-//                        }
-//                    });
-//                    valueAnimator.addListener(new AnimatorListenerAdapter() {
-//                        @Override
-//                        public void onAnimationEnd(Animator animation) {
-//                            super.onAnimationEnd(animation);
-//                            mArcProgressBar.setProgressDesc("完成");
-//                            startActivity(new Intent(lookTrip.this, tripLine.class));
-//                        }
-//                    });
-//                    valueAnimator.setDuration(5000*tripictureNames.size());
-//                    valueAnimator.start();
-//                }
             }
         });
         leftDrawer.setOnClickListener(new View.OnClickListener() {

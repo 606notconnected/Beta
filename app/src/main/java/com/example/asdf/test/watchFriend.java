@@ -18,6 +18,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
@@ -29,10 +30,14 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSONObject;
 import com.example.asdf.httpClient.httpClient;
 import com.example.asdf.httpClient.httpImage;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
@@ -47,21 +52,19 @@ public class watchFriend extends Activity implements AdapterView.OnItemClickList
     httpClient tmp2=new httpClient();
     httpImage tmp4=new httpImage();
     private android.os.Handler handler4;
+    private List<Bitmap> bitmaps=new ArrayList<>();
     private android.os.Handler handler1;
     private List<Map<String, Object>> list = null;
     int place;
-    friendListView adapter;
-
+    int jkl=0;
+    private friendListView adapter;
+    Bitmap bitmap;
     // TODO Auto-generated method stub
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.watch_friend);
-        addFriend = (ImageView) findViewById(R.id.addFriend);
         watch_friend = (ListView) findViewById(R.id.watch_friend);
-        list = getData();
-        System.out.println("关注" + list);
-        adapter = new friendListView(this, list, mListener);
-        watch_friend.setAdapter((ListAdapter) adapter);
+        addFriend = (ImageView) findViewById(R.id.addFriend);
         addFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,11 +78,39 @@ public class watchFriend extends Activity implements AdapterView.OnItemClickList
                 startActivity(new Intent(watchFriend.this, friend.class));
             }
         });
+        handler4 = new android.os.Handler()
+        {
+            @Override
+            public void handleMessage(Message msg) {
+                String tmp = msg.obj.toString();
+                jkl++;
+                if(tmp.equals("true"))
+                {
+                    bitmaps.add(bitmap);
+                    if(jkl==login.wat.size())
+                    {
+                        list=getData();
+                        adapter = new friendListView(watchFriend.this, list, mListener);
+                        watch_friend.setAdapter((ListAdapter) adapter);
+                        jkl=0;
+                    }
+                    Toast.makeText(watchFriend.this,"获取好友头像详情成功watchfroend",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    System.out.println("获取好友头像详情不成功watchfroend");
+                }
+            }
+        };
         new Thread()
         {
             public void run()
             {
-//                tmpBitmap =tmp4.getBitmap("http://120.27.7.115:1010/api/image?name="+login.friendHeadList.get(i),handler4);
+                    bitmaps.clear();
+                    for (int i = 0; i < login.friendHeadList.size(); i++) {
+                       if(login.friendHeadList.get(i)!=null)
+                        bitmap = tmp4.getBitmap("http://120.27.7.115:1010/api/image?name=" + login.friendHeadList.get(i), handler4);
+                    }
             }
         }.start();
         leftDrawer = (ImageView) findViewById(R.id.leftdrawer);
@@ -97,8 +128,10 @@ public class watchFriend extends Activity implements AdapterView.OnItemClickList
                     System.out.println("取消关注成功");
 //                    adapter = new listViewAdapter(addWatch.this, list, mListener);
                     login.wat.remove(place);
+                    login.friendHeadList.remove(place);
+                    bitmaps.remove(place);
                     list.clear();
-                    list=getData();
+                    list.addAll(getData());
                     adapter.notifyDataSetChanged();
 //                    Toast.makeText(watchFriend.this, "取消关注成功", Toast.LENGTH_SHORT).show();
                 } else {
@@ -117,10 +150,20 @@ public class watchFriend extends Activity implements AdapterView.OnItemClickList
                 map.put("love", R.drawable.love);
                 map.put("lovetext", "取消关注");
                 Resources res=getResources();
-                Bitmap bmp= BitmapFactory.decodeResource(res, R.drawable.ddd);
+//                Bitmap bmp= BitmapFactory.decodeResource(res, R.drawable.ddd);
+                if(bitmaps.get(i)!=null){
+                    System.out.println(i+"099999");
+                Bitmap bmp=bitmaps.get(i);
                 bmp=toRoundBitmap(bmp);
                 BitmapDrawable bd= new BitmapDrawable(bmp);
-                map.put("examplePicture",bd);
+                map.put("examplePicture",bd);}
+                else{
+                    System.out.println(i+"uuu99999");
+                    Bitmap bmp= BitmapFactory.decodeResource(res, R.drawable.head);
+                    bmp=toRoundBitmap(bmp);
+                    BitmapDrawable bd= new BitmapDrawable(bmp);
+                    map.put("examplePicture", bd);
+                }
                 map.put("exampletext", login.wat.get(i).getintroduction());
                 list.add(map);
             }
@@ -159,8 +202,6 @@ public class watchFriend extends Activity implements AdapterView.OnItemClickList
         int height = bitmap.getHeight();
         int newWidth = 80;
         int newHeight = 80;
-        //int newWidth=200;
-        //   int newHeight=120;
         //计算缩放率，新尺寸除原始尺寸
         float scaleWidth = ((float) newWidth) / width;
         float scaleHeight = ((float) newHeight) / height;

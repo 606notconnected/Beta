@@ -126,9 +126,9 @@ public class login extends Activity {
                 Gson gson = new Gson();
                 friendHead frhe = gson.fromJson(tmp, friendHead.class);
                 String y=frhe.getresult();
-                System.out.println(tmp+"000000000000000"+y);
                 if(y.equals("true"))
                 {
+//                    System.out.println(tmp+"000000000000000"+frhe.gethead());
                     friendHeadList.add(frhe.gethead());
                     Toast.makeText(login.this,"获取好友头像详情成功",Toast.LENGTH_SHORT).show();
                 }
@@ -176,8 +176,6 @@ public class login extends Activity {
                 String tmp = msg.obj.toString();
                 tmp = "{" + tmp + "}";
                 Log.d("json", tmp);
-//                Toast.makeText(login.this,tmp, Toast.LENGTH_LONG).show();
-//  String jsonData = "{\"account\":\"John\", \"userName\":20,\"sex\":\"jj\",\"introduction\":\"111\",\"email\":\"Joh22n\",}";;
                 Gson gson = new Gson();
                 People peopl = gson.fromJson(tmp, People.class);
                 uuername=peopl.getuserName();
@@ -189,7 +187,6 @@ public class login extends Activity {
                 sex="男";
                 introduce=peopl.getintroduction();
                 email=peopl.getemail();
-//                Toast.makeText(login.this, peopl.getaccount()+" "+peopl.getuserName()+" "+peopl.getsex()+" "+peopl.getintroduction()+" "+peopl.getemail()+" ", Toast.LENGTH_LONG).show();
             }
 
         };
@@ -199,13 +196,11 @@ public class login extends Activity {
             public void handleMessage(Message msg) {
                 String tmp = msg.obj.toString();
                 System.out.println(tmp+"管朱");
-//                    startActivity(new Intent(upload.this, mainView.class));
                 tmp = "{" + tmp + "}";
                 Gson gson = new Gson();
                 tmp=tmp.trim();
                 watchs watc = gson.fromJson(tmp, watchs.class);
                 String rs=watc.getresult();
-//                System.out.println(watc+"00"+wat+"关注列表"+rs);
                 if (rs.equals("true")) {
                         new Thread() {
                             @Override
@@ -337,13 +332,13 @@ public class login extends Activity {
     class friendHead
     {
         private String result;
-        private String imageName;
+        private String headimageName;
         public String getresult(){
             return result;
         }
         public String gethead()
         {
-            return imageName;
+            return headimageName;
         }
     }
 }

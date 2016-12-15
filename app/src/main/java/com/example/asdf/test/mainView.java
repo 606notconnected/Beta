@@ -113,10 +113,6 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
     int i=0;
     private Button btn_picture, btn_photo, btn_cancle;
     private static String path = "/sdcard/myHeadOfData/";// sd路径
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
     private GoogleApiClient client;
     httpImage tmp3=new httpImage();
     httpClient tmp2=new httpClient();
@@ -214,10 +210,6 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
                                                 tmp2.postParamsJson("http://120.27.7.115:1010/api/road", object, handler2);
                                             }
                                             }.start();
-//                                        Intent intent = new Intent();
-//                                        intent.putExtra("content", input);
-//                                        intent.setClass(mainView.this, SearchActivity.class);
-//                                        startActivity(intent);
                                     }
                                 }
                             })
@@ -225,7 +217,7 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
                             .show();
                     num = 1;
                 } else if (num == 1) {
-                    tripName=null;
+                       tripName=null;
                     tripId=null;
                     start.setBackgroundResource(R.drawable.start);
                     num = 0;
@@ -249,8 +241,6 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
                             int height = tmpBitmap.getHeight();
                             int newWidth = 80;
                             int newHeight = 120;
-                            //int newWidth=200;
-                            //   int newHeight=120;
                             //计算缩放率，新尺寸除原始尺寸
                             float scaleWidth = ((float) newWidth) / width;
                             float scaleHeight = ((float) newHeight) / height;
@@ -371,7 +361,6 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
         if (bt != null) {
             @SuppressWarnings("deprecation")
             Drawable drawable = new BitmapDrawable(toRoundBitmap(bt));// 转换成drawable
-//            System.out.println(mainView.tripId+" Id "+tmp2+"  "+date + "  time " + lon + "  纬度 " + lat + "  经度  "+introduction);
             myhead.setImageDrawable(drawable);
         } else {
 
@@ -379,8 +368,6 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
         mapView = (MapView) findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         init();
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 

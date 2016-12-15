@@ -96,7 +96,7 @@ public class upload extends Activity {
                 if (addPosition.num == 1) {
                     addposition.setText("地理位置已添加");
 //                    addposition.setClickable(false);
-                    pictureIma.setClickable(false);
+//                    pictureIma.setClickable(false);
                     jd = addPosition.longitude;
                     wd = addPosition.latitude;
                     lon= String.valueOf(jd);
@@ -189,22 +189,8 @@ public class upload extends Activity {
                     {
                         File tmp1 = new File(path);
                         httpImageTmp.uploadFile(tmp1, "http://120.27.7.115:1010/api/image",handler1,login.account);
-
-//                        System.out.println(path+"000000000000000000000000000000000000");
-//                        File tmp1 = new File(path);
-//                        tmp.uploadFile(tmp1, "http://120.27.7.115:1010/api/image",handler1,login.account);
-//                        if(mainView.tripName!=null&&name!=null&&date!=null&&lon!=null&&lat!=null)
-//                        {
-//                          object.put("imageName", name);
-//                          object.put("dateTime", date);
-//                          object.put("longitude", lon);
-//                          object.put("latitude", lat);
-//                          object.put("introduction", introduction);
-//                           tmp.postParamsJson("http://120.27.7.115:1010/api/image",object,handler1);}
-//                             text.setText("  "+date + "  time " + wd + "  纬度 " + jd + "  经度  "+introduction);
                     }
                 }.start();
-//                text.setText(mainView.tripName+" "+name+"  "+date + "  time " + wd + "  纬度 " + jd + "  经度  "+introduction);
 
             }
         });

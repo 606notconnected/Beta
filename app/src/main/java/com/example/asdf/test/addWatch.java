@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.asdf.httpClient.httpClient;
+import com.example.asdf.httpClient.httpImage;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -47,19 +48,28 @@ public class addWatch extends Activity implements AdapterView.OnItemClickListene
     private ListView addWatchListView;
     httpClient tmp1=new httpClient();
     httpClient tmp2=new httpClient();
+    httpClient tmp3=new httpClient();
+    httpImage tmp4=new httpImage();
+    httpClient tmp5=new httpClient();
     private Handler handler;
     private Handler handler1;
+    private android.os.Handler handler3;
+    private android.os.Handler handler5;
+    private android.os.Handler handler4;
     int place;
+    Bitmap bitmap;
     public static List<Map<String, Object>> list;
-    private    List<res> allresault;
+    private List<Bitmap> bitmapss=new ArrayList<>();
+    private List<String> addfriendHeadList=new ArrayList<>();
+    private List<res> allresault=new ArrayList<>();
     listViewAdapter adapter;
+    int jkll;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.addwatch);
         addWatchListView = (ListView) findViewById(R.id.addWatchListview);
         search = (Button) findViewById(R.id.search);
         searname= (EditText) findViewById(R.id.searname);
-//        enter= (ImageView) findViewById(R.id.enter);
         leftDrawer = (ImageView) findViewById(R.id.leftdrawer);
         leftDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +77,86 @@ public class addWatch extends Activity implements AdapterView.OnItemClickListene
                 addWatch.this.finish();
             }
         });
+        handler5 = new android.os.Handler()
+        {
+            @Override
+            public void handleMessage(Message msg) {
+                String tmp = msg.obj.toString();
+                tmp = "{" + tmp + "}";
+                Gson gson = new Gson();
+                friendHead frhe = gson.fromJson(tmp, friendHead.class);
+                String y=frhe.getresult();
+                if(y.equals("true"))
+                {
+                    System.out.println(tmp+"0000addwatch0000000"+frhe.gethead());
+                    login.friendHeadList.add(frhe.gethead());
+//                    Toast.makeText(addWatchL.this,"获取好友头像详情成功",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    login.friendHeadList.add("null");
+                    System.out.println("获取好友头像详情不成功");
+                }
+            }
+
+        };
+        handler4 = new android.os.Handler()
+        {
+            @Override
+            public void handleMessage(Message msg) {
+                String tmp = msg.obj.toString();
+                jkll++;
+                if(tmp.equals("true"))
+                {
+                    bitmapss.add(bitmap);
+                    if(jkll==allresault.size())
+                    {
+                        list=getData();
+                        adapter = new listViewAdapter(addWatch.this, list, mListener);
+                        addWatchListView.setAdapter(adapter);
+                        jkll=0;
+                    }
+                }
+                else
+                {
+                    System.out.println("获取好友头像详情不成功addwatch");
+                }
+            }
+        };
+        handler3 = new android.os.Handler()
+        {
+            @Override
+            public void handleMessage(Message msg) {
+                String tmp = msg.obj.toString();
+                tmp = "{" + tmp + "}";
+                Gson gson = new Gson();
+                friendHead frhe = gson.fromJson(tmp, friendHead.class);
+                String y=frhe.getresult();
+                if(y.equals("true"))
+                {
+                    System.out.println(tmp+"000000mazz00000"+frhe.gethead());
+                    addfriendHeadList.add(frhe.gethead());
+                    if(addfriendHeadList.size()==allresault.size()) {
+                        new Thread() {
+                            public void run() {
+                                if (bitmapss.size() != 0)
+                                    bitmapss.clear();
+                                for (int i = 0; i < addfriendHeadList.size(); i++) {
+                                    if (addfriendHeadList.get(i) != null)
+                                        bitmap = tmp4.getBitmap("http://120.27.7.115:1010/api/image?name=" + addfriendHeadList.get(i), handler4);
+                                }
+                            }
+                        }.start();
+                    }
+                }
+                else
+                {
+                    addfriendHeadList.add("null");
+                    System.out.println("获取好友头像详情不成功");
+                }
+            }
+
+        };
         handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -76,13 +166,23 @@ public class addWatch extends Activity implements AdapterView.OnItemClickListene
                 System.out.println(tmp+"添加关注返回信息");
                 Gson gson = new Gson();
                 searchresult sear = gson.fromJson(tmp, searchresult.class);
+                if(allresault.size()!=0)
+                allresault.clear();
                 allresault = sear.getresuList();
                 String resault=sear.getresult();
                 if (resault.equals("true") ) {
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            for (int i = 0; i < allresault.size(); i++) {
+//                                System.out.println( allresault.get(i).getaccount());
+                                if(addfriendHeadList.size()!=0)
+                                addfriendHeadList.clear();
+                                tmp5.getParamTest("http://120.27.7.115:1010/api/Image_Head?account=" + allresault.get(i).getaccount(), handler3);
+                            }
+                        }
+                    }.start();
                         System.out.println("成功");
-                        list=getData();
-                        adapter = new listViewAdapter(addWatch.this, list, mListener);
-                        addWatchListView.setAdapter((ListAdapter) adapter);
                         Toast.makeText(addWatch.this, "搜索成功", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(addWatch.this, "搜索失败", Toast.LENGTH_LONG).show();
@@ -94,6 +194,7 @@ public class addWatch extends Activity implements AdapterView.OnItemClickListene
             public void handleMessage(Message msg) {
                 String tmp = msg.obj.toString();
                 if (tmp.equals("true") ) {
+                   login.friendHeadList.add(addfriendHeadList.get(place));
                     System.out.println("关注c功");
 //                    adapter = new listViewAdapter(addWatch.this, list, mListener);
                     login.wat.add(allresault.get(place));
@@ -138,10 +239,19 @@ public class addWatch extends Activity implements AdapterView.OnItemClickListene
             map.put("love", R.drawable.before);
             map.put("lovetext","添加关注");
             Resources res=getResources();
-            Bitmap bmp= BitmapFactory.decodeResource(res, R.drawable.ddd);
-            bmp=toRoundBitmap(bmp);
-            BitmapDrawable bd= new BitmapDrawable(bmp);
-            map.put("examplePicture",bd);
+            if(bitmapss.get(i)!=null){
+                System.out.println(i+"099999");
+                Bitmap bmp=bitmapss.get(i);
+                bmp=toRoundBitmap(bmp);
+                BitmapDrawable bd= new BitmapDrawable(bmp);
+                map.put("examplePicture",bd);}
+            else{
+                System.out.println(i+"uuu99999");
+                Bitmap bmp= BitmapFactory.decodeResource(res, R.drawable.head);
+                bmp=toRoundBitmap(bmp);
+                BitmapDrawable bd= new BitmapDrawable(bmp);
+                map.put("examplePicture", bd);
+            }
             map.put("exampletext",allresault.get(i).getintroduction());
             list.add(map);
         }
@@ -218,6 +328,18 @@ public class addWatch extends Activity implements AdapterView.OnItemClickListene
         // canvas将bitmap画在backgroundBmp上
         canvas.drawBitmap(bitmap, null, rect, p);
         return backgroundBm;
+    }
+    class friendHead
+    {
+        private String result;
+        private String headimageName;
+        public String getresult(){
+            return result;
+        }
+        public String gethead()
+        {
+            return headimageName;
+        }
     }
 }
 

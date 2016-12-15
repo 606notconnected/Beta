@@ -12,6 +12,7 @@ import android.widget.Adapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +47,7 @@ public class friendListView extends BaseAdapter{
         public TextView exampletext;
         public Button love;
         public TextView lovetext;
+        public LinearLayout click;
     }
     @Override
     public int getCount() {
@@ -79,6 +81,7 @@ public class friendListView extends BaseAdapter{
             //获得组件，实例化组件
             convertView = layoutInflater.inflate(R.layout.friend_list, null);
             zujian.friendName= (TextView) convertView.findViewById(R.id.friendName);
+            zujian.click= (LinearLayout) convertView.findViewById(R.id.click);
             zujian.examplePicture = (ImageView) convertView.findViewById(R.id.examplePicture);
             zujian.exampletext = (TextView) convertView.findViewById(R.id.exampleText);
             zujian.love = (Button) convertView.findViewById(R.id.love);
@@ -94,8 +97,8 @@ public class friendListView extends BaseAdapter{
 //        zujian.entertext.setText("进入主页");
         zujian.lovetext.setText("取消关注");
         zujian.exampletext.setText((String) data.get(position).get("exampletext"));
-        zujian.love.setOnClickListener(mListener);
-        zujian.love.setTag(position);
+        zujian.click.setOnClickListener(mListener);
+        zujian.click.setTag(position);
         return convertView;
     }
 }

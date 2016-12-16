@@ -27,26 +27,26 @@
             android:layout_marginLeft="16dp"
             android:id="@+id/leftdrawer"
             android:background="@drawable/back"/>
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="地图"-->
+        <!--android:textColor="#ffffff"-->
+        <!--android:clickable="true"-->
+        <!--android:id="@+id/Map"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:layout_marginLeft="70dp"-->
+        <!--android:textSize="16dp"/>-->
     <TextView
+        android:textColor="#ffffff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="地图"
-        android:textColor="#ffffff"
-        android:clickable="true"
-        android:id="@+id/Map"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="80dp"
-        android:textSize="16dp"/>
-    <TextView
-        android:textColor="#ffffff"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="照片"
+        android:text="行程连线"
         android:clickable="true"
         android:id="@+id/picture"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="80dp"
-        android:textSize="16dp"/>
+        android:layout_marginLeft="120dp"
+        android:textSize="20dp"/>
 </LinearLayout>
         <ImageView
             android:layout_width="60dp"

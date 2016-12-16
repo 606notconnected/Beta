@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="#7A4BFF"
+        android:background="#12b7f5"
         android:orientation="horizontal">
         <ImageView
             android:layout_width="24dp"
@@ -27,14 +27,14 @@
             android:layout_marginLeft="120dp"
             android:textSize="20dp"/>
     </LinearLayout>
-<TextView
-    android:layout_width="match_parent"
-    android:text="修改个人信息"
-    android:id="@+id/information"
-    android:textSize="18dp"
-    android:layout_marginTop="80dp"
-    android:gravity="center_horizontal"
-    android:layout_height="50dp"></TextView>
+    <TextView
+        android:layout_width="match_parent"
+        android:text="修改个人信息"
+        android:id="@+id/information"
+        android:textSize="18dp"
+        android:layout_marginTop="80dp"
+        android:gravity="center_horizontal"
+        android:layout_height="50dp"></TextView>
     <View
         android:layout_width="match_parent"
         android:background="#ABABAB"

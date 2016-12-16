@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.asdf.test.attached.iClick;
+import com.example.asdf.test.attached.tmpBean;
+
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +22,7 @@ public class listViewForFriend extends BaseAdapter {
     private List<Map<String, Object>> data;
     private LayoutInflater layoutInflater;
     private Context context;
+    private List<tmpBean> list_sun;
     private static final String TAG = "ContentAdapter";
     private iClick mListener;
     public  listViewForFriend(Context context,List<Map<String, Object>> data,iClick listener){
@@ -79,6 +83,10 @@ public class listViewForFriend extends BaseAdapter {
         zujian.love.setOnClickListener(mListener);
         zujian.love.setTag(position);
         return convertView;
+//        Picasso.with(context).load(list_sun.get(position).getPicUrl()).fit()
+//                .placeholder(R.drawable.undownload)
+//                .error(R.drawable.undownload)//mapBitmap
+//                .into(zujian.examplePicture);
     }
 
 }

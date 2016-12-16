@@ -3,55 +3,29 @@ package com.example.asdf.test;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.media.session.PlaybackState;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.ContactsContract;
-import android.renderscript.Script;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.text.TextUtils;
-import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.ActionMode;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.asdf.httpClient.httpClient;
 import com.example.asdf.httpClient.httpImage;
+import com.example.asdf.test.adapter.tmpAdapter;
+import com.example.asdf.test.attached.tmpBean;
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
 
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -69,7 +43,7 @@ public class picture extends Activity {
     public static String na;
     public static  List<commen> comlist;
 //    private GridView gridView1;              //网格显示缩略图
-    private ListView lv_main;
+    private GridView lv_main;
     private List<tmpBean> listDatas;
     private tmpAdapter lAdapter;
     private Handler handler;
@@ -87,7 +61,7 @@ public class picture extends Activity {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.picture);
-        lv_main = (ListView) findViewById(R.id.list_sun);
+        lv_main = (GridView) findViewById(R.id.gridView);
         listDatas = new ArrayList<>();
         initData();
         lAdapter = new tmpAdapter(listDatas, this);
@@ -229,8 +203,8 @@ public class picture extends Activity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view,
                                            int position, long id) {
-                dialog(position);
-                return true;
+                                            dialog(position);
+                                            return true;
             }
         });
     }

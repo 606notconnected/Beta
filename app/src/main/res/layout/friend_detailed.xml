@@ -38,7 +38,7 @@
             android:layout_marginRight="30dp"
             android:layout_gravity="center_vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="200dp" />
         <TextView
             android:id="@+id/wz"
             android:hint="随笔"
@@ -48,28 +48,45 @@
             android:gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="end"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/bigthumb"
+                android:layout_marginRight="10dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/loveNum"
+                android:layout_marginRight="40dp"
+                android:hint=" 9"/>
+        </LinearLayout>
         <ListView
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:background="#ffffff"
             android:id="@+id/replylist" />
         <EditText
             android:layout_width="match_parent"
             android:layout_marginLeft="20dp"
+            android:id="@+id/commentForFriend"
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
-            android:background="#ffffff"
-            android:layout_height="100dp" />
+            android:background="@drawable/round_edittext"
+            android:layout_height="wrap_content" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="30dp"
-            android:background="@drawable/round_button"
             android:layout_marginTop="10dp"
             android:layout_gravity="end"
+            android:id="@+id/comment"
             android:text="评论"/>
     </LinearLayout>
 </LinearLayout>

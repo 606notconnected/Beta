@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.asdf.test.attached.activityCollector;
+import com.example.asdf.test.attached.baseActivity;
+
 /**
  * Created by Useradmin on 2016/10/23.
  */

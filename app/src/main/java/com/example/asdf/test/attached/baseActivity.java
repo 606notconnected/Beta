@@ -1,12 +1,9 @@
-package com.example.asdf.test;
+package com.example.asdf.test.attached;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.widget.Toast;
+
+import com.example.asdf.test.attached.activityCollector;
 
 /**
  * Created by Useradmin on 2016/11/6.

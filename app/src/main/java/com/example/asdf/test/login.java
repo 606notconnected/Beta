@@ -2,7 +2,9 @@ package com.example.asdf.test;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
@@ -11,23 +13,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONException;
+
 import com.alibaba.fastjson.JSONObject;
 import com.example.asdf.httpClient.httpClient;
-import com.example.asdf.httpClient.httpImage;
+import com.example.asdf.test.attached.res;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONTokener;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Handler;
 
 
 public class login extends Activity {
@@ -39,6 +32,7 @@ public class login extends Activity {
     public static String sex;
     public static String introduce;
     public static String email;
+    public static Bitmap bbsha;
     private String password;//获取输入的密码
     private EditText accountEdi;
     private EditText passwordEdi;
@@ -70,7 +64,8 @@ public class login extends Activity {
         forgetPassword = (TextView) findViewById(R.id.forgetPassword);
         accountEdi = (EditText) findViewById(R.id.account);
         passwordEdi = (EditText) findViewById(R.id.password);
-
+        Resources res=getResources();
+        bbsha= BitmapFactory.decodeResource(res, R.drawable.admire);
         handler = new android.os.Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -130,7 +125,7 @@ public class login extends Activity {
                 {
 //                    System.out.println(tmp+"000000000000000"+frhe.gethead());
                     friendHeadList.add(frhe.gethead());
-                    Toast.makeText(login.this,"获取好友头像详情成功",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(login.this,"获取好友头像详情成功",Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
@@ -206,7 +201,7 @@ public class login extends Activity {
                             @Override
                             public void run() {
                                 for (int i = 0; i < wat.size(); i++) {
-                                    System.out.println( wat.get(i).getaccount());
+                                    System.out.println(wat.get(i).getaccount());
                                     tmp4.getParamTest("http://120.27.7.115:1010/api/Image_Head?account=" + wat.get(i).getaccount(), handler5);
                                 }
                             }

@@ -2,7 +2,6 @@
 package com.example.asdf.test;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,20 +15,20 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.asdf.httpClient.httpClient;
 import com.example.asdf.httpClient.httpImage;
+import com.example.asdf.test.adapter.listViewAdapter;
+import com.example.asdf.test.attached.iClick;
+import com.example.asdf.test.attached.res;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -56,14 +55,14 @@ public class addWatch extends Activity implements AdapterView.OnItemClickListene
     private android.os.Handler handler3;
     private android.os.Handler handler5;
     private android.os.Handler handler4;
-    int place;
-    Bitmap bitmap;
     public static List<Map<String, Object>> list;
     private List<Bitmap> bitmapss=new ArrayList<>();
     private List<String> addfriendHeadList=new ArrayList<>();
     private List<res> allresault=new ArrayList<>();
     listViewAdapter adapter;
     int jkll;
+    int place;
+    Bitmap bitmap;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.addwatch);
@@ -77,29 +76,6 @@ public class addWatch extends Activity implements AdapterView.OnItemClickListene
                 addWatch.this.finish();
             }
         });
-        handler5 = new android.os.Handler()
-        {
-            @Override
-            public void handleMessage(Message msg) {
-                String tmp = msg.obj.toString();
-                tmp = "{" + tmp + "}";
-                Gson gson = new Gson();
-                friendHead frhe = gson.fromJson(tmp, friendHead.class);
-                String y=frhe.getresult();
-                if(y.equals("true"))
-                {
-                    System.out.println(tmp+"0000addwatch0000000"+frhe.gethead());
-                    login.friendHeadList.add(frhe.gethead());
-//                    Toast.makeText(addWatchL.this,"获取好友头像详情成功",Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    login.friendHeadList.add("null");
-                    System.out.println("获取好友头像详情不成功");
-                }
-            }
-
-        };
         handler4 = new android.os.Handler()
         {
             @Override
@@ -182,8 +158,8 @@ public class addWatch extends Activity implements AdapterView.OnItemClickListene
                             }
                         }
                     }.start();
-                        System.out.println("成功");
-                        Toast.makeText(addWatch.this, "搜索成功", Toast.LENGTH_SHORT).show();
+                        System.out.println("搜索成功");
+//                        Toast.makeText(addWatch.this, "搜索成功", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(addWatch.this, "搜索失败", Toast.LENGTH_LONG).show();
                 }
@@ -194,10 +170,18 @@ public class addWatch extends Activity implements AdapterView.OnItemClickListene
             public void handleMessage(Message msg) {
                 String tmp = msg.obj.toString();
                 if (tmp.equals("true") ) {
-                   login.friendHeadList.add(addfriendHeadList.get(place));
-                    System.out.println("关注c功");
 //                    adapter = new listViewAdapter(addWatch.this, list, mListener);
-                    login.wat.add(allresault.get(place));
+                    int flag=1;
+                    for(int i=0;i<login.wat.size();i++) {
+                        if(login.wat.get(i).getaccount().equals(allresault.get(place).getaccount()))
+                            flag=0;
+                        System.out.println(login.wat .get(i).getaccount()+ "关注c功");
+                    }
+                    if(flag==1)
+                    {
+                        login.wat.add(allresault.get(place));
+                        login.friendHeadList.add(addfriendHeadList.get(place));
+                    }
                     allresault.remove(place);
                     list.clear();
                     list=getData();

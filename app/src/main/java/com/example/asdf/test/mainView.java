@@ -1,8 +1,6 @@
 package com.example.asdf.test;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,7 +15,6 @@ import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -48,31 +45,23 @@ import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
-import com.amap.api.maps.model.BitmapDescriptor;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
-import com.amap.api.maps.model.GroundOverlay;
-import com.amap.api.maps.model.GroundOverlayOptions;
 import com.amap.api.maps.model.LatLng;
-import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
-import com.amap.api.maps.model.Polyline;
-import com.amap.api.maps.model.PolylineOptions;
 import com.example.asdf.httpClient.httpClient;
 import com.example.asdf.httpClient.httpImage;
+import com.example.asdf.test.attached.baseActivity;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 
 public class mainView extends baseActivity implements LocationSource, AMapLocationListener {
@@ -129,8 +118,7 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
         photo = (Button) findViewById(R.id.photo);
         start = (Button) findViewById(R.id.start);
         leftDrawer = (ImageView) findViewById(R.id.leftdrawer);
-        Map = (TextView) findViewById(R.id.Map);
-        username= (TextView) findViewById(R.id.username1);
+        Map = (TextView) findViewById(R.id.Map);        username= (TextView) findViewById(R.id.username1);
         introduce= (TextView) findViewById(R.id.introduce1);
         drawerLayout = (DrawerLayout) findViewById(R.id.layout);
         picture = (TextView) findViewById(R.id.picture);
@@ -149,7 +137,6 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
                 startActivity(intent);
             }
         });
-
         handler1 = new android.os.Handler() {
             public void handleMessage(Message msg) {
               Log.i("23333",msg.obj.toString());

@@ -75,11 +75,8 @@ public class lookTrip extends Activity{
                 String tmp = msg.obj.toString();
                 tmp = "{" + tmp + "}";
                 Log.d("json", tmp);
-//                Toast.makeText(login.this,tmp, Toast.LENGTH_LONG).show();
-//  String jsonData = "{\"account\":\"John\", \"userName\":20,\"sex\":\"jj\",\"introduction\":\"111\",\"email\":\"Joh22n\",}";;
                 Gson gson = new Gson();
                 pictureinfor peopl = gson.fromJson(tmp, pictureinfor.class);
-                //Log.i("2333", peopl.getLatitude() + "  0 " + peopl.getLongitude());
                 System.out.println(yy[0] +"999   "+peopl.getLatitude() + "   " +peopl.getLongitude() +"   "+peopl.getImageName());
                 lattt.add(peopl.getLatitude());
                 longgg.add(peopl.getLongitude());
@@ -89,7 +86,6 @@ public class lookTrip extends Activity{
                     getnum++;
                     if(getnum==tripictureNames.size())
                     { startActivity(new Intent(lookTrip.this,tripLine.class));getnum=0;}
-//                    Toast.makeText(lookTrip.this, "获取照片详情成功", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
@@ -130,17 +126,7 @@ public class lookTrip extends Activity{
                             }
                         }.start();
                     }
-
-//                    startActivity(new Intent(lookTrip.this,tripLine.class));
-//                    System.out.println(tmp + "0000000000000000" + iii );
-//                tripictureNames.add(md);
                 }
-//                if (tripictureNames!=null) {
-//                    Toast.makeText(lookTrip.this, "获取行程图片成功", Toast.LENGTH_SHORT).show();
-//                }
-//                else {
-////                    Toast.makeText(lookTrip.this, "服务器出错", Toast.LENGTH_LONG).show();
-//                }
             }
         };
         triplist.setAdapter(new triplist(lookTrip.this, list));

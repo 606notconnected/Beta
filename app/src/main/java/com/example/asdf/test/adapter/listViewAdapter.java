@@ -1,7 +1,5 @@
-package com.example.asdf.test;
+package com.example.asdf.test.adapter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,10 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.asdf.test.R;
+import com.example.asdf.test.attached.iClick;
 
 public class listViewAdapter extends BaseAdapter {
         private List<Map<String, Object>> data;

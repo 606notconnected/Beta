@@ -2,7 +2,6 @@ package com.example.asdf.test;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -10,17 +9,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
-import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -30,17 +26,14 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSONObject;
 import com.example.asdf.httpClient.httpClient;
 import com.example.asdf.httpClient.httpImage;
+import com.example.asdf.test.adapter.friendListView;
+import com.example.asdf.test.attached.iClick;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 /**
  * Created by Useradmin on 2016/11/15.
@@ -49,14 +42,24 @@ public class watchFriend extends Activity implements AdapterView.OnItemClickList
     private ImageView addFriend;
     private ImageView leftDrawer;
     private ListView watch_friend;
+    httpClient tmp1=new httpClient();
     httpClient tmp2=new httpClient();
     httpImage tmp4=new httpImage();
+    httpClient tmp3= new httpClient();
     private android.os.Handler handler4;
     private List<Bitmap> bitmaps=new ArrayList<>();
     private android.os.Handler handler1;
+    private android.os.Handler handler2;
+    private android.os.Handler handler3;
+    private android.os.Handler handler;
     private List<Map<String, Object>> list = null;
+    private List<String> friendtripictureNames;
+    public static List<String> friendPicNames=new ArrayList<>();
+    public static List<String> friendPicIntr=new ArrayList<>();
+    public static  String friendTripId;
     int place;
     int jkl=0;
+    int num=0;
     private friendListView adapter;
     Bitmap bitmap;
     // TODO Auto-generated method stub
@@ -65,6 +68,7 @@ public class watchFriend extends Activity implements AdapterView.OnItemClickList
         setContentView(R.layout.watch_friend);
         watch_friend = (ListView) findViewById(R.id.watch_friend);
         addFriend = (ImageView) findViewById(R.id.addFriend);
+        final AlertDialog.Builder builder=new AlertDialog.Builder(this);
         addFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,12 +76,96 @@ public class watchFriend extends Activity implements AdapterView.OnItemClickList
                 startActivity(new Intent(watchFriend.this, addWatch.class));
             }
         });
-        watch_friend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        handler2= new android.os.Handler()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(watchFriend.this, friend.class));
+            public void handleMessage(Message msg) {
+                String tmp = msg.obj.toString();
+                tmp = "{" + tmp + "}";
+                Log.d("json", tmp);
+                Gson gson = new Gson();
+                pictureinfor peopl = gson.fromJson(tmp, pictureinfor.class);
+                friendPicNames.add(peopl.getImageName());
+                friendPicIntr.add(peopl.getIntroduction());
+                if(friendPicNames.size()!=0) {
+                    num++;
+                    if(num==friendtripictureNames.size())
+                    {System.out.println("跳转至friend");startActivity(new Intent(watchFriend.this, friend.class));num=0;}
+                }
+                else
+                {
+                    System.out.println("获取照片详情失败");
+                }
             }
-        });
+
+        };
+        handler3 = new android.os.Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                String tmp = msg.obj.toString();
+                System.out.println(tmp+"66666666666");
+                if(tmp!=null)
+                {
+                    tmp = "{" + tmp + "}";
+                    Gson gson = new Gson();
+                    trippictures tri = gson.fromJson(tmp, trippictures.class);
+                    List<String> iii=tri.getreturnImageName();
+                    System.out.println(tri.getreturnImageName()+"呼噜噜"+tri);
+                    if(iii.size()==0||iii.get(0).equals("null")||iii.get(0).equals("error"))
+                    {
+                        builder.setMessage("好友的最新行程没有照片哟");
+                        // 创建对话框
+                        AlertDialog ad = builder.create();
+                        // 显示对话框
+                        ad.show();
+                    }
+                    else {
+                        friendtripictureNames=iii;
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                for(int u=0;u<friendtripictureNames.size();u++)
+                                { tmp3.getParamTest("http://120.27.7.115:1010/api/imagemessage?imagename=" + friendtripictureNames.get(u), handler2);
+                                }
+                            }
+                        }.start();
+                    }
+                }
+            }
+        };
+        handler = new android.os.Handler()
+        {
+            @Override
+            public void handleMessage(Message msg) {
+                String tmp = msg.obj.toString();
+//                    startActivity(new Intent(upload.this, mainView.class));
+                tmp = "{" + tmp + "}";
+                System.out.println(tmp+"获取好友行程");
+                Gson gson = new Gson();
+                trip tri = gson.fromJson(tmp, trip.class);
+                if (tri.gettripList()!=null) {
+                        friendTripId =tri.gettripList().get(0).getIId();
+                        System.out.println("获取好友行程成功");
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                tmp3.getParamTest("http://120.27.7.115:1010/api/road?roadid=" + friendTripId, handler3);
+                            }
+                        }.start();
+//                        Toast.makeText(watchFriend.this, "获取好友行程成功", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    builder.setMessage("好友还没有行程");
+                    // 创建对话框
+                    AlertDialog ad = builder.create();
+                    // 显示对话框
+                    ad.show();
+                    System.out.println("获取好友行程失败或者行程列表为空");
+//                    Toast.makeText(watchFriend.this, "获取好友行程失败", Toast.LENGTH_LONG).show();
+                }
+            }
+
+        };
         handler4 = new android.os.Handler()
         {
             @Override
@@ -94,7 +182,7 @@ public class watchFriend extends Activity implements AdapterView.OnItemClickList
                         watch_friend.setAdapter((ListAdapter) adapter);
                         jkl=0;
                     }
-                    Toast.makeText(watchFriend.this,"获取好友头像详情成功watchfroend",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(watchFriend.this,"获取好友头像详情成功watchfroend",Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
@@ -113,6 +201,18 @@ public class watchFriend extends Activity implements AdapterView.OnItemClickList
                     }
             }
         }.start();
+
+        watch_friend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        tmp1.getParamTest("http://120.27.7.115:1010/api/road?account=" + login.wat.get(position).getaccount(), handler);
+                    }
+                }.start();
+            }
+        });
         leftDrawer = (ImageView) findViewById(R.id.leftdrawer);
         leftDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,6 +268,7 @@ public class watchFriend extends Activity implements AdapterView.OnItemClickList
                 list.add(map);
             }
         }
+        bitmaps.clear();
         return list;
     }
 
@@ -227,4 +328,56 @@ public class watchFriend extends Activity implements AdapterView.OnItemClickList
         canvas.drawBitmap(bitmap, null, rect, p);
         return backgroundBm;
     }
+    class trip
+    {
+        private List<ttrip>returnMessage;
+        public class ttrip{
+            private String RoadID;
+            private String RoadName;
+            private String Introduction;
+            public String getIntroduction(){
+                return Introduction;
+            }
+            public String getIId(){
+                return RoadID;
+            }
+            public String getName(){
+                return RoadName;
+            }
+        }
+        public List<ttrip> gettripList()
+        {
+            return returnMessage;
+        }
+    }
+    class trippictures
+    {
+        public List<String> returnImageName;
+        public List<String> getreturnImageName() {
+            return returnImageName;
+        }
+    }
+    class pictureinfor {
+        private String imageName;
+        private String dateTime;  //属性都定义成String类型，并且属性名要和Json数据中的键值对的键名完全一样
+        private String longitude;
+        private String latitude;
+        private String introduction;
+        public String getImageName() {
+            return imageName;
+        }
+        public String getDateTime() {
+            return dateTime;
+        }
+        public String getLongitude() {
+            return longitude;
+        }
+        public String getLatitude() {
+            return latitude;
+        }
+        public String getIntroduction() {
+            return introduction;
+        }
+    }
+
 }

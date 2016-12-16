@@ -66,8 +66,8 @@ public class upload extends Activity {
     private Handler handler1;
     private Handler handler;
     JSONObject object = new JSONObject();
-    String lon;
-    String lat;
+    String lon=null;
+    String lat=null;
     String date = null;
     httpClient tmp = new httpClient();
     String path;
@@ -128,7 +128,9 @@ public class upload extends Activity {
             public void handleMessage(Message msg) {
                 String tmp2 = msg.obj.toString();
                 Log.i("tmp2",tmp2);
-                if(tmp2!=null&&mainView.tripId!=null)
+                if(lon==null)
+                Toast.makeText(upload.this,"请添加地理信息",Toast.LENGTH_LONG).show();
+                if(tmp2!=null&&mainView.tripId!=null&&lon!=null)
                 {
                     object.put("imageName", tmp2);
                     object.put("dateTime", date);

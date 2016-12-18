@@ -1,4 +1,4 @@
-package com.example.asdf.test;
+package com.example.asdf.test.attached;
 
 import android.app.Activity;
 

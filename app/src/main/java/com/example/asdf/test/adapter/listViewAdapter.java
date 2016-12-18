@@ -1,19 +1,21 @@
-package com.example.asdf.test;
+package com.example.asdf.test.adapter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.asdf.test.R;
+import com.example.asdf.test.attached.iClick;
 
 public class listViewAdapter extends BaseAdapter {
         private List<Map<String, Object>> data;
@@ -35,6 +37,7 @@ public class listViewAdapter extends BaseAdapter {
             private ImageView examplePicture;
             private TextView exampletext;
             public Button love;
+            public LinearLayout click;
             public TextView lovetext;
         }
         @Override
@@ -63,6 +66,7 @@ public class listViewAdapter extends BaseAdapter {
                 zujian=new Zujian();
                 //获得组件，实例化组件
                 convertView=layoutInflater.inflate(R.layout.list_item, null);
+                zujian.click= (LinearLayout) convertView.findViewById(R.id.click);
                 zujian.friendName=(TextView)convertView.findViewById(R.id.friendName);
                 zujian.examplePicture=(ImageView)convertView.findViewById(R.id.examplePicture);
                 zujian.exampletext=(TextView)convertView.findViewById(R.id.exampleText);
@@ -74,12 +78,12 @@ public class listViewAdapter extends BaseAdapter {
             }
             //绑定数据
             zujian.love.setBackgroundResource((Integer)data.get(position).get("love"));
-            zujian.examplePicture.setBackgroundResource((Integer)data.get(position).get("examplePicture"));
+            zujian.examplePicture.setBackgroundDrawable((Drawable) data.get(position).get("examplePicture"));
             zujian.friendName.setText((String) data.get(position).get("friendName"));
             zujian.exampletext.setText((String)data.get(position).get("exampletext"));
             zujian.lovetext.setText("添加关注");
-            zujian.love.setOnClickListener(mListener);
-            zujian.love.setTag(position);
+            zujian.click.setOnClickListener(mListener);
+            zujian.click.setTag(position);
             return convertView;
         }
 

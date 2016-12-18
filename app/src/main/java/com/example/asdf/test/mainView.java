@@ -1,8 +1,6 @@
 package com.example.asdf.test;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,7 +15,6 @@ import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -48,31 +45,23 @@ import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
-import com.amap.api.maps.model.BitmapDescriptor;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
-import com.amap.api.maps.model.GroundOverlay;
-import com.amap.api.maps.model.GroundOverlayOptions;
 import com.amap.api.maps.model.LatLng;
-import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
-import com.amap.api.maps.model.Polyline;
-import com.amap.api.maps.model.PolylineOptions;
 import com.example.asdf.httpClient.httpClient;
 import com.example.asdf.httpClient.httpImage;
+import com.example.asdf.test.attached.baseActivity;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 
 public class mainView extends baseActivity implements LocationSource, AMapLocationListener {
@@ -101,9 +90,11 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
     private Bitmap head;// 头像Bitmap
     private Handler handler;
     private Handler handler1;
+    private android.os.Handler handler2;
+    private Handler handler3;
     private DrawerLayout drawerLayout;
     private PopupWindow mPopWindow;
-    private   TextView introduce;
+    private TextView introduce;
     httpImage tmp = new httpImage();
     public static String tripName;
     public static List<String> tripNa=null;
@@ -111,17 +102,13 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
     int i=0;
     private Button btn_picture, btn_photo, btn_cancle;
     private static String path = "/sdcard/myHeadOfData/";// sd路径
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
     private GoogleApiClient client;
-    private android.os.Handler handler2;
+    httpImage tmp3=new httpImage();
     httpClient tmp2=new httpClient();
     httpClient tmp1 = new httpClient();
     int j=0;
     JSONObject object = new JSONObject();
-    public  static  List<trip.ttrip> uuu;
+    public  static  List<trip.ttrip> uuu=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -131,8 +118,7 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
         photo = (Button) findViewById(R.id.photo);
         start = (Button) findViewById(R.id.start);
         leftDrawer = (ImageView) findViewById(R.id.leftdrawer);
-        Map = (TextView) findViewById(R.id.Map);
-        username= (TextView) findViewById(R.id.username1);
+        Map = (TextView) findViewById(R.id.Map);        username= (TextView) findViewById(R.id.username1);
         introduce= (TextView) findViewById(R.id.introduce1);
         drawerLayout = (DrawerLayout) findViewById(R.id.layout);
         picture = (TextView) findViewById(R.id.picture);
@@ -143,6 +129,7 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
         delete = (LinearLayout) findViewById(R.id.delete);
         care = (LinearLayout) findViewById(R.id.care);
         myhead = (ImageView) findViewById(R.id.head);
+        Map= (TextView) findViewById(R.id.Map);
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,7 +137,6 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
                 startActivity(intent);
             }
         });
-
         handler1 = new android.os.Handler() {
             public void handleMessage(Message msg) {
               Log.i("23333",msg.obj.toString());
@@ -166,6 +152,21 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
                     Toast.makeText(mainView.this, "可以上传图片啦", Toast.LENGTH_SHORT).show();
                 } else if (tmp.equals("error")) {
                     Toast.makeText(mainView.this, "服务器出错", Toast.LENGTH_LONG).show();
+                }
+            }
+
+        };
+        handler3 = new android.os.Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                String tmp = msg.obj.toString();
+//                Toast.makeText(mainView.this, tmp, Toast.LENGTH_LONG).show();
+                if (tmp!="error") {
+                    Toast.makeText(mainView.this, "上传头像成功", Toast.LENGTH_SHORT).show();
+                    System.out.println("上传头像成功");
+                } else if (tmp.equals("error")) {
+                    Toast.makeText(mainView.this, "上传头像出错", Toast.LENGTH_LONG).show();
+                    System.out.println("上传头像不成功");
                 }
             }
 
@@ -196,41 +197,37 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
                                                 tmp2.postParamsJson("http://120.27.7.115:1010/api/road", object, handler2);
                                             }
                                             }.start();
-//                                        Intent intent = new Intent();
-//                                        intent.putExtra("content", input);
-//                                        intent.setClass(mainView.this, SearchActivity.class);
-//                                        startActivity(intent);
                                     }
                                 }
                             })
                             .setNegativeButton("取消", null)
                             .show();
                     num = 1;
-                   new Thread()
-                   {
-                       public void run()
-                       {
-                           httpImage tmpHttpImage = new httpImage();
-                           for(int j=0;j<login.latt.size();j++) {
-                               LatLng latLng1 = new LatLng(Double.valueOf(login.latt.get(j)), Double.valueOf(login.longg.get(j)));
-                               Bitmap tmpBitmap = null;
-                               tmpBitmap = tmpHttpImage.getBitmap("http://120.27.7.115:1010/api/image?name=" + login.picName.get(j), handler1);
-//                               MarkerOptions otMarkerOptions = new MarkerOptions();
-//                               otMarkerOptions.icon(BitmapDescriptorFactory.fromBitmap(tmpBitmap));
-//                               otMarkerOptions.position(latLng1);
-//                               aMap.addMarker(otMarkerOptions);
-//                               aMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng1));
-
-
-
-
+                } else if (num == 1) {
+                       tripName=null;
+                    tripId=null;
+                    start.setBackgroundResource(R.drawable.start);
+                    num = 0;
+                }
+            }
+        });
+        Map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread()
+                {
+                    public void run()
+                    {
+                        httpImage tmpHttpImage = new httpImage();
+                        for(int j=0;j<login.latt.size();j++) {
+                            LatLng latLng1 = new LatLng(Double.valueOf(login.latt.get(j)), Double.valueOf(login.longg.get(j)));
+                            Bitmap tmpBitmap = null;
+                            tmpBitmap = tmpHttpImage.getBitmap("http://120.27.7.115:1010/api/image?name=" + login.picName.get(j), handler1);
                             //获取这个图片的宽和高
                             int width = tmpBitmap.getWidth();
                             int height = tmpBitmap.getHeight();
                             int newWidth = 80;
                             int newHeight = 120;
-                            //int newWidth=200;
-                            //   int newHeight=120;
                             //计算缩放率，新尺寸除原始尺寸
                             float scaleWidth = ((float) newWidth) / width;
                             float scaleHeight = ((float) newHeight) / height;
@@ -240,21 +237,13 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
                             // 创建新的图片
                             Bitmap resizedBitmap = Bitmap.createBitmap(tmpBitmap, 0, 0, width,
                                     height, matrix, true);
+                            resizedBitmap=Bitmap.createBitmap(resizedBitmap, 0, 10, 80, 80, null, false);
                             aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f)//设置锚点
-                .position(latLng1).icon(BitmapDescriptorFactory.fromBitmap(resizedBitmap)));
-                           }
-                       }
-                   }.start();
+                                    .position(latLng1).icon(BitmapDescriptorFactory.fromBitmap(resizedBitmap)));
+                        }
+                    }
+                }.start();
 
-
-
-
-                } else if (num == 1) {
-                    tripName=null;
-                    tripId=null;
-                    start.setBackgroundResource(R.drawable.start);
-                    num = 0;
-                }
             }
         });
         handler = new Handler()
@@ -266,6 +255,7 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
                     tmp = "{" + tmp + "}";
                     Gson gson = new Gson();
                     trip tri = gson.fromJson(tmp, trip.class);
+                    if (tri!=null) {
                     uuu = tri.gettripList();
                     lookTrip.tName.clear();
                     lookTrip.tId.clear();
@@ -275,7 +265,6 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
                         lookTrip.tName.add(uuu.get(i).getName());
                         System.out.println(uuu.get(i).getIId()+"  99   "+uuu.get(i).getName());
                     }
-                    if (tri!=null) {
 //                        Toast.makeText(mainView.this, "获取行程列表成功", Toast.LENGTH_SHORT).show();
                     }
                     else {
@@ -315,7 +304,7 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
             public void onClick(View v) {
                 startActivity(new Intent(mainView.this, watchFriend.class));
             }
-        });
+        });//点击进入关注好友界面
         looktrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -361,16 +350,11 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
             Drawable drawable = new BitmapDrawable(toRoundBitmap(bt));// 转换成drawable
             myhead.setImageDrawable(drawable);
         } else {
-            /**
-             * 如果SD里面没有则需要从服务器取头像，取回来的头像再保存在SD中
-             *
-             */
+
         }
         mapView = (MapView) findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         init();
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
@@ -431,7 +415,15 @@ public class mainView extends baseActivity implements LocationSource, AMapLocati
                     Bundle extras = data.getExtras();
                     head = extras.getParcelable("data");
                     if (head != null) {
-                        //发送
+                        new Thread()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                File tm = new File(path + "myhead.jpg");
+                                tmp3.uploadFile(tm,"http://120.27.7.115:1010/api/Image_Head", handler3, login.account);
+                            }
+                        }.start();
                         setPicToView(head);// 保存在SD卡中
                         myhead.setImageBitmap(toRoundBitmap(head));// 用ImageView显示出来
                     }

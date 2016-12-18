@@ -38,8 +38,8 @@
         android:layout_marginTop="40dp"
         android:textCursorDrawable="@null"
         android:background="#ffffff"
-        android:text="请输入好友昵称或者邮箱"/>
-        <EditText
+        android:text="请输入好友昵称或者手机号"/>
+        <Button
             android:layout_width="60dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="40dp"

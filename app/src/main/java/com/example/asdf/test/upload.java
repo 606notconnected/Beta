@@ -66,8 +66,8 @@ public class upload extends Activity {
     private Handler handler1;
     private Handler handler;
     JSONObject object = new JSONObject();
-    String lon;
-    String lat;
+    String lon=null;
+    String lat=null;
     String date = null;
     httpClient tmp = new httpClient();
     String path;
@@ -96,7 +96,7 @@ public class upload extends Activity {
                 if (addPosition.num == 1) {
                     addposition.setText("地理位置已添加");
 //                    addposition.setClickable(false);
-                    pictureIma.setClickable(false);
+//                    pictureIma.setClickable(false);
                     jd = addPosition.longitude;
                     wd = addPosition.latitude;
                     lon= String.valueOf(jd);
@@ -128,7 +128,9 @@ public class upload extends Activity {
             public void handleMessage(Message msg) {
                 String tmp2 = msg.obj.toString();
                 Log.i("tmp2",tmp2);
-                if(tmp2!=null&&mainView.tripId!=null)
+                if(lon==null)
+                Toast.makeText(upload.this,"请添加地理信息",Toast.LENGTH_LONG).show();
+                if(tmp2!=null&&mainView.tripId!=null&&lon!=null)
                 {
                     object.put("imageName", tmp2);
                     object.put("dateTime", date);
@@ -189,22 +191,8 @@ public class upload extends Activity {
                     {
                         File tmp1 = new File(path);
                         httpImageTmp.uploadFile(tmp1, "http://120.27.7.115:1010/api/image",handler1,login.account);
-
-//                        System.out.println(path+"000000000000000000000000000000000000");
-//                        File tmp1 = new File(path);
-//                        tmp.uploadFile(tmp1, "http://120.27.7.115:1010/api/image",handler1,login.account);
-//                        if(mainView.tripName!=null&&name!=null&&date!=null&&lon!=null&&lat!=null)
-//                        {
-//                          object.put("imageName", name);
-//                          object.put("dateTime", date);
-//                          object.put("longitude", lon);
-//                          object.put("latitude", lat);
-//                          object.put("introduction", introduction);
-//                           tmp.postParamsJson("http://120.27.7.115:1010/api/image",object,handler1);}
-//                             text.setText("  "+date + "  time " + wd + "  纬度 " + jd + "  经度  "+introduction);
                     }
                 }.start();
-//                text.setText(mainView.tripName+" "+name+"  "+date + "  time " + wd + "  纬度 " + jd + "  经度  "+introduction);
 
             }
         });

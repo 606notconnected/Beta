@@ -50,14 +50,15 @@
         <activity android:name=".forgetPassword"></activity>
         <activity android:name=".modifyinformation"></activity>
         <activity android:name=".modifyPassword"></activity>
-        <activity android:name=".baseActivity"></activity>
-        <activity android:name="activityCollector"></activity>
+        <activity android:name=".attached.baseActivity"></activity>
+        <activity android:name=".attached.activityCollector"></activity>
         <activity android:name=".friend"></activity>
         <activity android:name=".detailed"></activity>
         <activity android:name=".information"></activity>
         <activity android:name=".singleDetail"></activity>
-        <activity android:name="listViewAdapter"></activity>
+        <activity android:name=".adapter.listViewAdapter"></activity>
         <activity android:name=".watchFriend"></activity>
+        <activity android:name=".friendDetailed"></activity>
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"

@@ -41,6 +41,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="70dp"
             android:textSize="16dp"/>
+
         <LinearLayout
 
             android:layout_width="match_parent"
@@ -89,5 +90,19 @@
             android:layout_height="match_parent"></ListView>
 
     </LinearLayout>
-
-</android.support.v4.widget.DrawerLayout>
+        <GridView
+            android:layout_marginTop="10dp"
+            android:id="@+id/gridView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:numColumns="auto_fit"
+            android:horizontalSpacing="10dp"
+            android:columnWidth="140dp"
+            android:verticalSpacing="10dp"
+            android:stretchMode="columnWidth"
+            android:gravity="center"
+            ></GridView>
+        <!--<ListView-->
+            <!--android:id="@+id/list_sun"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"></ListView>-->

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    android:id="@+id/layoutRight"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!-- 引入布局文件 -->
+    <com.amap.api.maps.MapView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/map3"
+        android:layout_width="match_parent"
+        android:layout_marginTop="50dp"
+        android:layout_height="match_parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:id="@+id/layout_right"
+            android:layout_height="match_parent">
+            <ListView
+                android:id="@+id/rightList"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"></ListView>
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/layout_left"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/title1"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#1976d2"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/leftdrawer"
+            android:background="@drawable/back"/>
+        <TextView
+            android:textColor="#ffffff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="行程连线"
+            android:layout_marginLeft="110dp"
+            android:clickable="true"
+            android:id="@+id/picture"
+            android:layout_gravity="center_vertical"
+            android:textSize="20dp"/>
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/open"
+            android:background="@drawable/right"/>
+        </LinearLayout>
+    </LinearLayout>
+    </LinearLayout>
+</android.support.v4.widget.DrawerLayout>
